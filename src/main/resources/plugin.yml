@@ -1,0 +1,40 @@
+name: DaniThings
+version: ${project.version}
+main: me.imdanix.things.DaniPlugin
+api-version: 1.13
+softdepend: [ProtocolLib, WorldGuard, PlaceholderAPI]
+authors: [imDaniX]
+description: ${project.description}
+commands:
+  danithings:
+    permission: danithings.command.danithings
+    usage: '/<command>'
+    description: 'DaniThings main command'
+  getuuid:
+    permission: danithings.command.getuuid
+    usage: '/<command> <player>'
+    description: 'Get UUID of offline player'
+  hpedit:
+    permission: danithings.command.hpedit
+    usage: '/<command> <player> <health>'
+    description: 'Set player''s max health'
+  modifier:
+    permission: danithings.command.modifier
+    usage: '/<command> <modifier> [settings]'
+    description: 'Apply modifier to item'
+  setlore:
+    permission: danithings.command.setlore
+    usage: '/<command> <new_lore>'
+    description: 'Set lore of item'
+  stats:
+    permission: danithings.command.stats
+    usage: '/<command> [player]'
+    description: 'Get player stats'
+  bastard:
+    permission: danithings.command.bastard
+    usage: '/<command> <player>'
+    description: 'Get location of bastard'
+  silentkick:
+    permission: danithings.command.silentkick
+    usage: '/<command> <player> [reason]'
+    description: 'Silently kick player'

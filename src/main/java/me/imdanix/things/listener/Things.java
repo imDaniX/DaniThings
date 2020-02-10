@@ -1,0 +1,153 @@
+package me.imdanix.things.listener;
+
+import me.imdanix.things.DaniPlugin;
+import me.imdanix.things.events.PlayerDamageEntityEvent;
+import me.imdanix.things.utils.Rnd;
+import me.imdanix.things.utils.Utils;
+import me.imdanix.things.configuration.ConfigurableListener;
+import org.bukkit.Bukkit;
+import org.bukkit.Location;
+import org.bukkit.Material;
+import org.bukkit.Particle;
+import org.bukkit.Sound;
+import org.bukkit.SoundCategory;
+import org.bukkit.Statistic;
+import org.bukkit.block.Block;
+import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Firework;
+import org.bukkit.entity.LivingEntity;
+import org.bukkit.entity.Monster;
+import org.bukkit.entity.Player;
+import org.bukkit.entity.Silverfish;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
+import org.bukkit.event.block.BlockBreakEvent;
+import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent;
+import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.event.entity.EntityTeleportEvent;
+import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.inventory.PrepareAnvilEvent;
+import org.bukkit.inventory.InventoryHolder;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.meta.EnchantmentStorageMeta;
+import org.bukkit.inventory.meta.ItemMeta;
+
+public class Things extends ConfigurableListener {
+	private boolean ghostBlocks, teleportDupe, fireworkDamage, enderCrystalExplode, pvpStatistic,
+			overEnchant, overEnchantStopper, overEnchantSilverfish, colorRename;
+
+	public Things() {
+		super("things");
+	}
+
+	@Override
+	public void load(ConfigurationSection cfg) {
+		this.ghostBlocks = cfg.getBoolean("ghost_blocks", false);
+		this.teleportDupe = cfg.getBoolean("teleport_dupe", true);
+		this.fireworkDamage = cfg.getBoolean("firework_damage", true);
+		this.enderCrystalExplode = cfg.getBoolean("endercrystal_block_damage", false);
+		this.pvpStatistic = cfg.getBoolean("pvp_statistic", true);
+		this.overEnchant = cfg.getBoolean("over_enchant", true);
+		this.overEnchantStopper = cfg.getBoolean("over_enchant_stopper", true);
+		this.overEnchantSilverfish = cfg.getBoolean("over_enchant_silverfish", true);
+		this.colorRename = cfg.getBoolean("disallow_colored_rename", false);
+	}
+
+	@EventHandler
+	public void onBlockBreak(BlockBreakEvent e) {
+	    Block bl = e.getBlock();
+	    if(ghostBlocks)
+	    	Bukkit.getScheduler().runTaskLater(DaniPlugin.PLUGIN, () -> e.getPlayer().sendBlockChange(bl.getLocation(), bl.getBlockData()), 3);
+
+		ItemStack is=e.getPlayer().getInventory().getItemInMainHand();
+		if(overEnchantStopper && Utils.checkEnchant(is, Enchantment.DIG_SPEED, 5)) {
+			if(Rnd.nextDouble() > 0.05) return;
+			e.setDropItems(false);
+			Location loc=e.getBlock().getLocation();
+			if(overEnchantSilverfish && Rnd.nextDouble() > 0.9) loc.getWorld().spawn(loc, Silverfish.class);
+			loc.getWorld().playSound(loc, Sound.ENTITY_GHAST_DEATH, SoundCategory.BLOCKS, 0.2f, 1);
+			loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 6, 0.3, 0.3, 0.3, 0.04);
+		}
+	}
+	
+	@EventHandler
+	public void onEntityTeleport(EntityTeleportEvent e) {
+		if(!teleportDupe)
+			return;
+		Entity ent = e.getEntity();
+		if(ent.getType() != EntityType.PLAYER && ent instanceof InventoryHolder &&
+				ent instanceof LivingEntity && ((LivingEntity)ent).getHealth() > 4)
+			e.setCancelled(true);
+	}
+	
+	@EventHandler(priority=EventPriority.HIGHEST)
+	public void onEntityFight(EntityDamageByEntityEvent e) {
+		if(!fireworkDamage)
+			return;
+		if(e.getDamager() instanceof Firework) {
+			Entity ent=e.getEntity();
+			if(!(ent instanceof Monster) || !((LivingEntity) ent).isGliding())
+				e.setCancelled(true);
+		}
+	}
+
+	@EventHandler
+	public void onPrepareAnvil(PrepareAnvilEvent e) {
+		ItemStack item1 = e.getInventory().getItem(0);
+		ItemStack result = e.getResult();
+		if(item1==null || result==null) return;
+		
+		if (!colorRename && item1.getItemMeta().hasDisplayName()) {
+			String name=item1.getItemMeta().getDisplayName();
+			if(name.startsWith("§")) {
+				ItemMeta meta = result.getItemMeta(); meta.setDisplayName(name);
+				result.setItemMeta(meta);
+			}
+		}
+
+		ItemStack item2 = e.getInventory().getItem(1);
+		if (overEnchant && item2 != null && item2.getType() == Material.ENCHANTED_BOOK) {
+			EnchantmentStorageMeta book = (EnchantmentStorageMeta)item2.getItemMeta();
+			if(book.hasLore() && book.getLore().contains("§7Неразрушимость")) {
+				if(result.getType() == Material.AIR)
+					result=item1.clone();
+				ItemMeta temp = result.getItemMeta(); temp.setUnbreakable(!temp.isUnbreakable());
+				result.setItemMeta(temp);
+			}
+			if(Utils.checkEnchant(book, Enchantment.DIG_SPEED, 5)) 
+				result.addUnsafeEnchantment(Enchantment.DIG_SPEED, book.getStoredEnchantLevel(Enchantment.DIG_SPEED));
+			if(Utils.checkEnchant(book, Enchantment.LOOT_BONUS_BLOCKS, 3))
+				result.addUnsafeEnchantment(Enchantment.LOOT_BONUS_BLOCKS, book.getStoredEnchantLevel(Enchantment.LOOT_BONUS_BLOCKS));
+		}
+	}
+	
+	@EventHandler
+	public void onPlayerDeath(PlayerDeathEvent e) {
+		if(!pvpStatistic) return;
+		Player p=e.getEntity(); Player killer=p.getKiller();
+		if(killer!=null&&killer.getAddress().getHostName().equals(p.getAddress().getHostName())) {
+			int kills=killer.getStatistic(Statistic.PLAYER_KILLS);
+			killer.setStatistic(Statistic.PLAYER_KILLS, kills>1?kills-2:0);}
+	}
+	
+	@EventHandler
+	public void onEntityExplode(EntityExplodeEvent e) {
+		if(!enderCrystalExplode) return;
+		if(e.getEntityType()==EntityType.ENDER_CRYSTAL)
+			e.blockList().clear();
+	}
+
+	@EventHandler
+	public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
+		if(e.getDamager() instanceof Player && e.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
+			PlayerDamageEntityEvent pE = new PlayerDamageEntityEvent((Player)e.getDamager(), e.getEntity(), e.getDamage(), e.isCancelled());
+			Bukkit.getPluginManager().callEvent(pE);
+			e.setDamage(pE.getDamage());
+			e.setCancelled(pE.isCancelled());
+		}
+	}
+}

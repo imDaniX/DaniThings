@@ -1,0 +1,261 @@
+commands:
+  # Uses PlaceholderAPI, doesn't work with offline players
+  stats:
+    list:
+      - '&9&m                                                                     &f'
+      - '%javascript_theGrade% %player_name%'
+      - '&7Баланс:&a $%vault_eco_balance_fixed%'
+      - '&7Время игры:&6 %statistic_hours_played% часов'
+      - '&7Убийств:&c %statistic_player_kills%'
+      - '&7Смертей:&c %statistic_deaths%'
+      - '&7Брак:&f %javascript_marry%'
+      - '&9&m                                                                     &f'
+  bastard:
+    # commands - these commands will be fired from console on /bastard <player> <hours> [reason]
+    commands:
+      - 'lp user {player} parent addtemp bastard {hours}h'
+    # location - will be shown on /bastard <player>; multiply lines can be used
+    location:
+      - '&bBastard>&f Игрок &e{player}&f сейчас находится на координатах &e{x}&f, &e{y}&f, &e{z}&f в мире&e {world}&f.'
+    # broadcast - message on giving bastard; use '' instead of text to disable
+    broadcast: '&cНаказание>&f Игрок &e{player}&f стал бастардом на &e{hours} часов&f.'
+    # broadcast_reason - same as above but with reason
+    broadcast_reason: '&cНаказание>&f Игрок &e{player}&f стал бастардом на &e{hours} часов&f по причине:&e {reason}'
+
+things:
+  # Fixing ghost blocks for fast breaking
+  ghost_blocks: true
+  # Cancels teleportation between world for entities with inventory (zombie, horse etc.)
+  teleport_dupe: true
+  # Cancels damage by firework - some players are using it for kill mobs and players
+  firework_damage: true
+  # Cancels block destruction caused by endercrystals
+  endercrystal_explode: true
+  # Cancels increasing of pvp statistic if player was killed by player with same Ip-address
+  pvp_statistic: true
+  # Bastard system for punishing player. Bastard is player with danithings.bastard.player; ignorable with danithings.bastard.exempt
+  bastard:
+    enabled: true
+    # damage_multiplier - all damage dealt TO bastard will be multiplied by this value
+    damage_multiplier: 3.0
+    # weakness_multiplier - all damage dealt BY bastard will be multiplied by this value
+    weakness_multiplier: 0.4
+    # ignore_cancelled - damage will be dealt to bastard even if event was cancelled(WG regions, marriages etc.)
+    ignore_cancelled: true
+  # TODO
+  over_enchant: true
+  over_enchant_stopper: true
+  over_enchant_silverfish: true
+  disallow_colored_rename: false
+
+easymode:
+  shelves_drop: true
+
+hardmode:
+  elytras:
+    enabled: true
+    # chance - chance of successful launch; 1.0 - always, 0.0 - never
+    chance: 0.5
+    # cooldown - cooldown between tries
+    cooldown: 40000
+    messages:
+      failed_flint: '&8(&4&l!&8) &fДля полета вам нужно держать &cзажигалку&f в другой руке!'
+      failed_chance: '&8(&4&l!&8) &fФейерверк &cвзорвался&f в вашей руке!'
+      failed_cooldown: '&8(&4&l!&8) &fПодождите, пока зажигалка остынет! &c({cooldown} с.)'
+  fishing:
+    antiafk:
+      enabled: true
+      bad_blocks:
+        - CHEST
+        - TRAPPED_CHEST
+        - BLACK_SHULKER_BOX
+        - BLUE_SHULKER_BOX
+        - BROWN_SHULKER_BOX
+        - CYAN_SHULKER_BOX
+        - GRAY_SHULKER_BOX
+        - GREEN_SHULKER_BOX
+        - LIGHT_BLUE_SHULKER_BOX
+        - LIGHT_GRAY_SHULKER_BOX
+        - LIME_SHULKER_BOX
+        - MAGENTA_SHULKER_BOX
+        - ORANGE_SHULKER_BOX
+        - PINK_SHULKER_BOX
+        - PURPLE_SHULKER_BOX
+        - RED_SHULKER_BOX
+        - SHULKER_BOX
+        - WHITE_SHULKER_BOX
+        - YELLOW_SHULKER_BOX
+        - BELL
+        - NOTE_BLOCK
+        - REPEATER
+        - COMPARATOR
+        - DAYLIGHT_DETECTOR
+        - CAKE
+        - STRING
+
+# enabled - is modifier enabled
+# modifier - lore for item to use modifier
+modifiers:
+  # Transform blocks instantly
+  hot_touch:
+    enabled: true
+    modifier: '&9Модификатор&7:&f Горячее касание'
+    # precalculate_fortune - precalculate chances for different fortune levels; if level wasn't calculated - it will be calculated in real-time
+    precalculate_fortune: 10
+    # fire_mobs - set mobs on fire if damage > 4; 0 to disable
+    fire_mobs: 30
+    # percent_usage - chanced transforming (0-100%), if false - item always transforms; use {chance} placeholder in 'modifier'
+    percent_usage: false
+    # block - Material to break
+    # drop - Material to drop
+    # min,max_amount - min,max amounts of dropped item
+    # fortune - if tool have fortune enchantment - drop additional items if possible
+    blocks:
+      iron_ore:
+        drop: iron_ingot
+        min_amount: 1
+        max_amount: 1
+        fortune: true
+      gold_ore:
+        drop: gold_ingot
+        min_amount: 1
+        max_amount: 1
+        fortune: false
+      cobblestone:
+        drop: stone
+        min_amount: 1
+        max_amount: 1
+        fortune: false
+      sand:
+        drop: glass
+        min_amount: 1
+        max_amount: 2
+        fortune: false
+      clay:
+        drop: terracotta
+        min_amount: 1
+        max_amount: 1
+        fortune: true
+
+  # More chance - lower damage of tool, on 100% item will be unbreakable
+  chanced_durability:
+    enabled: true
+    modifier: '&9Модификатор&7:&f Крепость предмета {chance}'
+
+  # Save items in inventory after death
+  item_saver:
+    enabled: true
+    modifier: '&9Модификатор&7:&f Верность хозяину {chance}'
+    # percent_usage - chanced saving (0-100%), if false - item always saves; use {chance} placeholder in 'modifier'
+    percent_usage: true
+
+  # Lift that can be used by interacting with sign
+  sign_lift:
+    enabled: true
+    modifier: '&9Модификатор&7:&f Создание лифта'
+    messages:
+      sign_only: '&9Лифт> &fВам требуется кликнуть &cпо табличке&f.'
+      wrong_region: '&9Лифт> &fВы не можее активировать лифт &cв чужом привате&f.'
+      next_click: '&9Лифт> &fТеперь кликните &eпо табличке&f, которая находится &eровно над/под этой&f.'
+      created: '&9Лифт> &fЛифт был &aуспешно&f создан.'
+      too_far: '&9Лифт> &fВы находитесь &cслишком далеко&a от лифта.'
+      blocked: '&9Лифт> &fНевозможно поднять на лифте - место перемещения &cзакрыто блоками&f.'
+      deleted: '&9Лифт> &fЛифт был &aуспешно&f удалён.'
+    # distance - amount of blocks between player and sign required to teleport
+    distance: 4.0
+    # drop - material to drop when lift was destroyed
+    drop: paper
+    # allow_blocked - allow player to teleport even if destination is blocked with blocks
+    allow_blocked: false
+
+  # Ability to break and use spawners
+  spawner_pick:
+    enabled: true
+    modifier: '&9Модификатор&7:&f Сбор спавнеров'
+    # one_use - tool can be used only once
+    one_use: true
+    # mob - EntityType
+    # failing - will drop cobblestone instead of spawner
+    # lore - used for item lore
+    mobs:
+      zombie:
+        lore: '&7&oСпавнер Зомби'
+      skeleton:
+        lore: '&7&oСпавнер Скелетов'
+      creeper:
+        lore: '&7&oСпавнер Криперов'
+      spider:
+        lore: '&7&oСпавнер Пауков'
+      blaze:
+        failing: true
+        lore: '&cСпавнер был зачарован злобным волшебником'
+      silverfish:
+        lore: '&7&oСпавнер Чешуйниц'
+      cave_spider:
+        lore: '&7&oСпавнер Пещерных пауков'
+
+  # Striking mobs with thunderbolt
+  thor:
+    enabled: true
+    modifier:
+      enabled: '&9Модификатор&7:&f Громовержец'
+      disabled: '&9Модификатор&7:&7&o Громовержец'
+    # distance - if ProtocolLib is enabled - thunder will be visible only for player within this radius
+    distance: 112
+    # min_damage - minimal damage to allow use of modifier
+    min_damage: 5
+    # deal_damage - bonus damage for striked entity
+    deal_damage: 10
+    # transform - allow lightning to transform entities like pig>pigzombie, creeper>charged creeper etc.
+    transform: true
+    # damage - what mobs you want to strike
+    damage:
+      players: true
+      monsters: true
+      animals: false
+      npcs: false
+    messages:
+      enabled: '&9Громовержец> &fГромовержец включен'
+      disabled: '&9Громовержец> &7&oГромовержец отключен'
+
+  # Heal by hitting mobs
+  vampire:
+    enabled: true
+    modifier: '&9Модификатор&7:&f Вампиризм'
+    # chance - chance of vampiring will work; 1.0 - always, 0.0 - never
+    chance: 0.5
+    # min_damage - minimal damage to make it work
+    min_damage: 6
+    # heal - factor of amount of health that will be regenerated multiplied by damage - damage*heal
+    heal: 0.3
+
+  # Withdraw exp from player and spawn exp bottles instead
+  exp_withdraw:
+    enabled: true
+    modifier: '&9Модификатор&7:&f Выкачивание опыта'
+    # min_level - minimal level to withdraw exp from player
+    min_level: 20
+
+   # Fall damage reduction
+  no_fall:
+    enabled: true
+    modifier: '&9Модификатор&7:&f Мягкое падение {value}'
+    # slot - slot where item with modifier should be; head, chest, legs, feet, hand, off_hand
+    slot: feet
+    # percent_usage - ranged decrease (0-100%), if false - 100% of damage will be ignored; use {value} placeholder in 'modifier'
+    percent_usage: true
+
+  teleporter:
+    enabled: true
+    unused: '&7&oТелепорт не привязан'
+    modifier: '&7&oТелепорт привязан'
+    used: '&7&oТелепорт отключен'
+    matter: '&eДля восстановления амулета телепортации'
+
+  # TODO
+  food:
+    fast_cerial:
+      enabled: true
+      name: '&6Быстрая каша'
+      food: 3
+      saturation: 4
