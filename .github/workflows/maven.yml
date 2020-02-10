@@ -25,7 +25,7 @@ jobs:
         run: mvn -B package --file pom.xml
 
       - name: Copy artifacts
-        run: mkdir -p ./out/ && cp -t ./out/ **/target/DaniThings*.jar
+        run: mkdir -p ./out/ && cp -t ./out/ /home/runner/work/DaniThings/DaniThings/target/DaniThings*.jar
 
       - uses: actions/upload-artifact@master
         with:
