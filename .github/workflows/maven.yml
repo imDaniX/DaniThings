@@ -29,5 +29,5 @@ jobs:
 
       - uses: actions/upload-artifact@master
         with:
-          name: Plugin jar
+          name: DaniThings
           path: out/
