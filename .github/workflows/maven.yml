@@ -28,7 +28,7 @@ jobs:
         run: mkdir -p ./out/ && cp -t ./out/ /home/runner/work/DaniThings/DaniThings/target/DaniThings*.jar
 
       - name: Copy config
-        run: mkdir -p ./out/ && cp -t ./out/ /home/runner/work/DaniThings/DaniThings/target/classes/me/config.yml
+        run: mkdir -p ./out/ && cp -t ./out/ /home/runner/work/DaniThings/DaniThings/target/classes/config.yml
 
       - uses: actions/upload-artifact@master
         with:
