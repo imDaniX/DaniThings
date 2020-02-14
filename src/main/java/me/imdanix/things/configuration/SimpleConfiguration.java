@@ -17,7 +17,7 @@
 
 package me.imdanix.things.configuration;
 
-import me.imdanix.things.DaniPlugin;
+import me.imdanix.things.DaniThings;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.File;
@@ -37,11 +37,11 @@ public class SimpleConfiguration {
 
 	public SimpleConfiguration(String name, boolean resource) {
 		configurableObjects = new HashMap<>();
-		file = new File(DaniPlugin.PLUGIN.getDataFolder(), name + ".yml");
+		file = new File(DaniThings.PLUGIN.getDataFolder(), name + ".yml");
 		file.getParentFile().mkdirs();
 		if(!file.exists()) {
 			if(resource)
-				DaniPlugin.PLUGIN.saveResource(name + ".yml", false);
+				DaniThings.PLUGIN.saveResource(name + ".yml", false);
 			else
 				try {
 					file.createNewFile();
@@ -55,7 +55,7 @@ public class SimpleConfiguration {
 		this.file = file;
 		this.file.getParentFile().mkdirs();
 		if (resource && !this.file.exists())
-			DaniPlugin.PLUGIN.saveResource(file.getName() + ".yml", false);
+			DaniThings.PLUGIN.saveResource(file.getName() + ".yml", false);
 		yml = YamlConfiguration.loadConfiguration(file);
 	}
 

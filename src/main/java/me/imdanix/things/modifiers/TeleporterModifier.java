@@ -17,7 +17,7 @@
 
 package me.imdanix.things.modifiers;
 
-import me.imdanix.things.DaniPlugin;
+import me.imdanix.things.DaniThings;
 import me.imdanix.things.configuration.SimpleConfiguration;
 import me.imdanix.things.utils.UUIDDataType;
 import me.imdanix.things.utils.Utils;
@@ -51,8 +51,8 @@ import java.util.UUID;
 import java.io.File;
 
 public class TeleporterModifier extends Modifier implements Scalable {
-	private final NamespacedKey SIZE = new NamespacedKey(DaniPlugin.PLUGIN, "teleporter-size");
-	private final NamespacedKey TP_UUID = new NamespacedKey(DaniPlugin.PLUGIN, "teleporter-uuid");
+	private final NamespacedKey SIZE = new NamespacedKey(DaniThings.PLUGIN, "teleporter-size");
+	private final NamespacedKey TP_UUID = new NamespacedKey(DaniThings.PLUGIN, "teleporter-uuid");
 	private final SimpleConfiguration locationsCfg;
 	private final Map<UUID, Location> locations;
 	private final ItemStack matter;
@@ -69,9 +69,9 @@ public class TeleporterModifier extends Modifier implements Scalable {
 		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		matter.setItemMeta(meta);
 
-		File oldTeleporter = new File(DaniPlugin.PLUGIN.getDataFolder(), "old_teleporter.yml");
+		File oldTeleporter = new File(DaniThings.PLUGIN.getDataFolder(), "old_teleporter.yml");
 		if(oldTeleporter.exists())
-			Bukkit.getPluginManager().registerEvents(new OldTeleporterListener(oldTeleporter), DaniPlugin.PLUGIN);
+			Bukkit.getPluginManager().registerEvents(new OldTeleporterListener(oldTeleporter), DaniThings.PLUGIN);
 	}
 
 	@Override

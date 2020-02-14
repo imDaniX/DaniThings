@@ -17,7 +17,7 @@
 
 package me.imdanix.things.listener;
 
-import me.imdanix.things.DaniPlugin;
+import me.imdanix.things.DaniThings;
 import me.imdanix.things.events.PlayerDamageEntityEvent;
 import me.imdanix.things.utils.Rnd;
 import me.imdanix.things.utils.Utils;
@@ -78,7 +78,7 @@ public class Things extends ConfigurableListener {
 	public void onBlockBreak(BlockBreakEvent e) {
 	    Block bl = e.getBlock();
 	    if(ghostBlocks)
-	    	Bukkit.getScheduler().runTaskLater(DaniPlugin.PLUGIN, () -> e.getPlayer().sendBlockChange(bl.getLocation(), bl.getBlockData()), 3);
+	    	Bukkit.getScheduler().runTaskLater(DaniThings.PLUGIN, () -> e.getPlayer().sendBlockChange(bl.getLocation(), bl.getBlockData()), 3);
 
 		ItemStack is=e.getPlayer().getInventory().getItemInMainHand();
 		if(overEnchantStopper && Utils.checkEnchant(is, Enchantment.DIG_SPEED, 5)) {

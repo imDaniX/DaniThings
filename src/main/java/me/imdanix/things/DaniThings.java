@@ -36,13 +36,13 @@ import me.imdanix.things.modifiers.itemsaver.SavingModifier;
 import me.imdanix.things.modifiers.spawnerpicking.SpawnerPickModifier;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public final class DaniPlugin extends JavaPlugin {
+public final class DaniThings extends JavaPlugin {
 	public static JavaPlugin PLUGIN;
 	public static SimpleConfiguration config;
 
 	@Override
 	public void onEnable() {
-		DaniPlugin.PLUGIN = this;
+		DaniThings.PLUGIN = this;
 		config = new SimpleConfiguration("config");
 
 		CommandManager cmd = new CommandManager();

@@ -17,10 +17,9 @@
 
 package me.imdanix.things.command.commands;
 
-import me.imdanix.things.DaniPlugin;
+import me.imdanix.things.DaniThings;
 import me.imdanix.things.command.Command;
 import me.imdanix.things.command.FailInfo;
-import me.imdanix.things.configuration.SimpleConfiguration;
 import org.bukkit.command.CommandSender;
 
 import java.util.ArrayList;
@@ -49,7 +48,7 @@ public class DanithingsCommand extends Command {
 				failed(s, FailInfo.NO_PERMISSION);
 				return;
 			}
-			DaniPlugin.config.reloadConfig();
+			DaniThings.config.reloadConfig();
 			s.sendMessage(clr("&bDaniThings>&f Плагин был &aуспешно&f перезагружен."));
 		}
 	}
