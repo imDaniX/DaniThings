@@ -228,6 +228,7 @@ public class TeleporterModifier extends Modifier implements Scalable {
 				String oldId = Utils.getInteger(line, true).toString();
 				UUID id = UUID.nameUUIDFromBytes(("§7§oТелепорт ID" + oldId).getBytes());
 				if(locations.containsKey(id)) {
+					item.setAmount(1);
 					item.setType(Material.AIR);
 					e.getPlayer().sendMessage("§c§lОшибка>§f Похоже, амулет с таким ID уже существует. " +
 											"Скорее всего он был дюпнут. §eК сожалению, придется его удалить.");
