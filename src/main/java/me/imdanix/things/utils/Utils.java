@@ -17,10 +17,6 @@
 
 package me.imdanix.things.utils;
 
-import me.imdanix.things.hooks.EssentialsHook;
-import me.imdanix.things.hooks.PlaceholderAPIHook;
-import me.imdanix.things.hooks.ProtocolLibHook;
-import me.imdanix.things.hooks.WorldGuardHook;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
@@ -54,11 +50,6 @@ public class Utils {
 	public static final Pattern NUM_PATTERN = Pattern.compile("(?<!§)\\d+(\\.\\d+)?");
 	public static final Set<Material> NON_SOLID = Utils.createSet(Material::isSolid, Material.values());
 
-	public final static EssentialsHook ESS_HOOK = new EssentialsHook();
-	public final static ProtocolLibHook PL_HOOK = new ProtocolLibHook();
-	public final static PlaceholderAPIHook PAPI_HOOK = new PlaceholderAPIHook();
-	public final static WorldGuardHook WG_HOOK = new WorldGuardHook();
-	
 	public static String clr(String s){
 		return s == null ? clr("&4Error") : ChatColor.translateAlternateColorCodes('&', s);
 	}

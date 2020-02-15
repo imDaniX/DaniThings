@@ -17,6 +17,7 @@
 
 package me.imdanix.things.modifiers;
 
+import me.imdanix.things.hooks.Hooks;
 import me.imdanix.things.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -76,7 +77,7 @@ public class SignLiftModifier extends Modifier {
 			p.sendMessage(messages.get("sign_only"));
 			return;
 		}
-		if(!Utils.WG_HOOK.canBuild(p, bl.getLocation())) {
+		if(!Hooks.WG_HOOK.canBuild(p, bl.getLocation())) {
 			p.sendMessage(messages.get("wrong_region"));
 			return;
 		}

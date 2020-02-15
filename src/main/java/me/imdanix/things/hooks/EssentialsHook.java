@@ -18,17 +18,20 @@
 package me.imdanix.things.hooks;
 
 import com.earth2me.essentials.Essentials;
+import com.earth2me.essentials.Trade;
+import com.earth2me.essentials.User;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.entity.Player;
 import org.bukkit.event.player.PlayerTeleportEvent;
-import com.earth2me.essentials.Trade;
-import java.math.BigDecimal;
 
+import java.math.BigDecimal;
 import java.util.function.BiConsumer;
+import java.util.function.BiPredicate;
 
 public class EssentialsHook extends PluginHook {
 	private final BiConsumer<Player, Location> teleporter;
+	private final BiPredicate<Player, Double> cashier;
 	private Trade trade;
 
 	public EssentialsHook() {
@@ -43,10 +46,25 @@ public class EssentialsHook extends PluginHook {
 					p.teleport(l);
 				}
 			};
-		} else teleporter = Player::teleport;
+			cashier = (p, m) -> {
+				User user = ess.getUser(p);
+				BigDecimal money = BigDecimal.valueOf(m);
+				if(!user.canAfford(money)) return false;
+				user.takeMoney(money);
+				return true;
+			};
+
+		} else {
+			teleporter = Player::teleport;
+			cashier = (p,m) -> true;
+		}
 	}
 
 	public void teleport(Player player, Location location) {
 		teleporter.accept(player, location);
+	}
+
+	public boolean takeMoney(Player player, double money) {
+		return cashier.test(player, money);
 	}
 }

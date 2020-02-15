@@ -19,16 +19,18 @@ package me.imdanix.things.modifiers;
 
 import me.imdanix.things.DaniThings;
 import me.imdanix.things.configuration.SimpleConfiguration;
+import me.imdanix.things.hooks.Hooks;
 import me.imdanix.things.utils.UUIDDataType;
 import me.imdanix.things.utils.Utils;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
 import org.bukkit.Sound;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.enchantments.Enchantment;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.HandlerList;
 import org.bukkit.event.Listener;
@@ -39,16 +41,14 @@ import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.persistence.PersistentDataContainer;
-import org.bukkit.NamespacedKey;
 import org.bukkit.persistence.PersistentDataType;
-import org.bukkit.entity.Player;
 
+import java.io.File;
 import java.util.Collections;
-import java.util.Map;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
-import java.io.File;
 
 public class TeleporterModifier extends Modifier implements Scalable {
 	private final NamespacedKey SIZE = new NamespacedKey(DaniThings.PLUGIN, "teleporter-size");
@@ -105,7 +105,7 @@ public class TeleporterModifier extends Modifier implements Scalable {
 					item.setItemMeta(Utils.setLoreLine(meta, line, usedModifier));
 					item.removeEnchantment(Enchantment.DURABILITY);
 				}
-				Utils.ESS_HOOK.teleport(player, locations.get(container.get(TP_UUID, UUIDDataType.UUID)));
+				Hooks.ESS_HOOK.teleport(player, locations.get(container.get(TP_UUID, UUIDDataType.UUID)));
 			} else if(container.has(TP_UUID, UUIDDataType.UUID)) {
 				ItemStack off = player.getInventory().getItemInOffHand();								// Used
 				if(player.isSneaking() && off.getType() == Material.COAL) {
@@ -214,6 +214,11 @@ public class TeleporterModifier extends Modifier implements Scalable {
 			PersistentDataContainer container = meta.getPersistentDataContainer();
 			if(container.has(TP_UUID, UUIDDataType.UUID) || !meta.hasLore()) return;
 			String line = meta.getLore().get(0);
+			if(!Hooks.ESS_HOOK.takeMoney(e.getPlayer(), 10000)) {
+				e.getPlayer().sendMessage("§c§llОшибка>§f К сожалению, у вас недостаточно денег для восстановления " +
+						"амулета телепортации. Вам требуется §e10'000$");
+				return;
+			}
 			if(line.equals("§7§oТелепорт не привязан")) {
 				meta.setLore(Collections.singletonList(unusedModifier));
 				container.set(SIZE, PersistentDataType.INTEGER, 10);

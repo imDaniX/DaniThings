@@ -17,9 +17,10 @@
 
 package me.imdanix.things.modifiers;
 
+import me.imdanix.things.events.PlayerDamageEntityEvent;
+import me.imdanix.things.hooks.Hooks;
 import me.imdanix.things.utils.Rnd;
 import me.imdanix.things.utils.Utils;
-import me.imdanix.things.events.PlayerDamageEntityEvent;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -97,7 +98,7 @@ public class ThorModifier extends Modifier {
 				loc.getBlock().setType(Material.FIRE);
 			if(Rnd.nextBoolean())
 				ent.setFireTicks(Rnd.nextInt(120)+40);
-			Utils.PL_HOOK.strikeThunderbolt(distanceSquared, loc);
+			Hooks.PL_HOOK.strikeThunderbolt(distanceSquared, loc);
 		}
 	}
 

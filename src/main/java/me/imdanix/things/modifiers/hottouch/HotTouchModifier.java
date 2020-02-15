@@ -18,8 +18,8 @@
 package me.imdanix.things.modifiers.hottouch;
 
 import me.imdanix.things.events.PlayerDamageEntityEvent;
-import me.imdanix.things.modifiers.Scalable;
 import me.imdanix.things.modifiers.Modifier;
+import me.imdanix.things.modifiers.Scalable;
 import me.imdanix.things.utils.Rnd;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
@@ -168,7 +168,7 @@ public class HotTouchModifier extends Modifier implements Scalable {
 		for(;chance>1;--chance)
 			amount += amount;
 		if(chance > 0)
-			if(chance>Rnd.nextDouble())
+			if(chance > Rnd.nextDouble())
 				amount += amount;
 		return amount > 0 ? amount : 1;
 	}

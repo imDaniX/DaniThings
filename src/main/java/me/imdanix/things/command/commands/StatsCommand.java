@@ -17,9 +17,9 @@
 
 package me.imdanix.things.command.commands;
 
-import me.imdanix.things.utils.Utils;
 import me.imdanix.things.command.FailInfo;
 import me.imdanix.things.configuration.ConfigurableCommand;
+import me.imdanix.things.hooks.Hooks;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -53,7 +53,7 @@ public class StatsCommand extends ConfigurableCommand {
 				return;
 			}
 			Player p = (Player) s;
-			stats.forEach(l -> s.sendMessage(Utils.PAPI_HOOK.setPlaceholders(p, l)));
+			stats.forEach(l -> s.sendMessage(Hooks.PAPI_HOOK.setPlaceholders(p, l)));
 		} else {
 			if(!s.hasPermission("danithings.command.stats.other")) {
 				failed(s, FailInfo.NO_PERMISSION);
@@ -64,7 +64,7 @@ public class StatsCommand extends ConfigurableCommand {
 				failed(s, FailInfo.OFFLINE_PLAYER);
 				return;
 			}
-			stats.forEach(l->s.sendMessage(Utils.PAPI_HOOK.setPlaceholders(p,l)));
+			stats.forEach(l->s.sendMessage(Hooks.PAPI_HOOK.setPlaceholders(p,l)));
 		}
 	}
 

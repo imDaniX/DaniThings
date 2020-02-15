@@ -17,18 +17,10 @@
 
 package me.imdanix.things.hooks;
 
-import org.bukkit.Bukkit;
+public interface Hooks {
+	EssentialsHook ESS_HOOK = new EssentialsHook();
+	ProtocolLibHook PL_HOOK = new ProtocolLibHook();
+	PlaceholderAPIHook PAPI_HOOK = new PlaceholderAPIHook();
+	WorldGuardHook WG_HOOK = new WorldGuardHook();
 
-public abstract class PluginHook {
-	private boolean enabled;
-
-	public PluginHook(String plugin) {
-		this.enabled = Bukkit.getPluginManager().isPluginEnabled(plugin);
-	}
-
-	// TODO: onPluginDisable
-
-	public boolean isEnabled() {
-		return enabled;
-	}
 }
