@@ -1,6 +1,6 @@
 name: DaniThings
 version: ${project.version}
-main: me.imdanix.things.DaniPlugin
+main: me.imdanix.things.DaniThings
 api-version: 1.13
 softdepend: [ProtocolLib, WorldGuard, PlaceholderAPI]
 authors: [imDaniX]
