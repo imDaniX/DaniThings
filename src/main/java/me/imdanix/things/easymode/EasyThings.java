@@ -40,7 +40,7 @@ public class EasyThings extends ConfigurableListener {
 
 	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onBreak(BlockBreakEvent e) {
-		if(!shelvesDrop || e.getBlock().getType() != Material.BOOKSHELF) return;
+		if(!shelvesDrop || e.getBlock().getType() != Material.BOOKSHELF || !e.isDropItems()) return;
 		e.setDropItems(false);
 		Location loc = e.getBlock().getLocation();
 		loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.BOOKSHELF));
