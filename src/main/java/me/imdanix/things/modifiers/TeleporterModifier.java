@@ -69,9 +69,9 @@ public class TeleporterModifier extends Modifier implements Scalable {
 		meta.addItemFlags(ItemFlag.HIDE_ENCHANTS);
 		matter.setItemMeta(meta);
 
-		File oldTeleporter = new File(DaniThings.PLUGIN.getDataFolder(), "old_teleporter.yml");
-		if(oldTeleporter.exists())
-			Bukkit.getPluginManager().registerEvents(new OldTeleporterListener(oldTeleporter), DaniThings.PLUGIN);
+//		File oldTeleporter = new File(DaniThings.PLUGIN.getDataFolder(), "old_teleporter.yml");
+//		if(oldTeleporter.exists())
+//			Bukkit.getPluginManager().registerEvents(new OldTeleporterListener(oldTeleporter), DaniThings.PLUGIN);
 	}
 
 	@Override
