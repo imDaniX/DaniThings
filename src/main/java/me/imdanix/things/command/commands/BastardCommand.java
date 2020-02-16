@@ -20,7 +20,6 @@ package me.imdanix.things.command.commands;
 import me.imdanix.things.command.FailInfo;
 import me.imdanix.things.configuration.ConfigurableCommand;
 import me.imdanix.things.listener.Bastard;
-import me.imdanix.things.utils.Utils;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.ConfigurationSection;
@@ -28,7 +27,8 @@ import org.bukkit.entity.Player;
 
 import java.util.List;
 
-import static me.imdanix.things.utils.Utils.*;
+import static me.imdanix.things.utils.Utils.clr;
+import static me.imdanix.things.utils.Utils.getDouble;
 
 public class BastardCommand extends ConfigurableCommand {
 	private List<String> commands, location;
@@ -40,14 +40,10 @@ public class BastardCommand extends ConfigurableCommand {
 
 	@Override
 	public void load(ConfigurationSection cfg) {
-		init(cfg.getStringList("commands"), cfg.getStringList("location"), cfg.getString("broadcast"), cfg.getString("broadcast_reason"));
-	}
-
-	private void init(List<String> commands, List<String> location, String broadcast, String broadcastReason) {
-		this.commands=commands;
-		this.location=clr(location);
-		this.broadcast=clr(broadcast);
-		this.broadcastReason=clr(broadcastReason);
+		this.commands = cfg.getStringList("commands");
+		this.location = clr(cfg.getStringList("location"));
+		this.broadcast = clr(cfg.getString("broadcast"));
+		this.broadcastReason = clr(cfg.getString("broadcast_reason"));
 	}
 
 	@Override

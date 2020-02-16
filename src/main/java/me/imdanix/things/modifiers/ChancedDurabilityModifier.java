@@ -39,11 +39,7 @@ public class ChancedDurabilityModifier extends Modifier implements Scalable {
 
 	@Override
 	public void loadModifier(ConfigurationSection cfg) {
-		init(cfg.getString("modifier"));
-	}
-
-	private void init(String modifier) {
-		this.modifier=clr(modifier);
+		this.modifier=clr(cfg.getString("modifier"));
 		this.replacedModifier=this.modifier.replace("{chance}", "%");
 	}
 

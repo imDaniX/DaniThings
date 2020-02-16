@@ -50,16 +50,12 @@ public class HotTouchModifier extends Modifier implements Scalable {
 
 	@Override
 	public void loadModifier(ConfigurationSection cfg) {
-		init(cfg.getString("modifier"), cfg.getInt("precalculate_fortune"), cfg.getInt("fire_mobs"), cfg.getBoolean("percent_usage"), cfg.getConfigurationSection("blocks"));
-	}
-
-	private void init(String modifier, int precalculateFortune, int fireMobs, boolean percentUsage, ConfigurationSection blocks) {
-		this.modifier=clr(modifier);
+		this.modifier=clr(cfg.getString("modifier"));
 		this.replacedModifier=this.modifier.replace("{chance}", "%");
-		this.fireMobs=fireMobs;
-		this.percentUsage=percentUsage;
-		HotItem.generateItems(blocks);
-		calculateFortune(precalculateFortune, 1);
+		this.fireMobs= cfg.getInt("fire_mobs");
+		this.percentUsage=cfg.getBoolean("percent_usage");
+		HotItem.generateItems(cfg.getConfigurationSection("blocks"));
+		calculateFortune(cfg.getInt("precalculate_fortune"), 1);
 	}
 
 	@EventHandler

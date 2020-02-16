@@ -17,8 +17,8 @@
 
 package me.imdanix.things.modifiers;
 
-import me.imdanix.things.utils.Rnd;
 import me.imdanix.things.events.PlayerDamageEntityEvent;
+import me.imdanix.things.utils.Rnd;
 import org.bukkit.attribute.Attribute;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
@@ -43,14 +43,10 @@ public class VampireModifier extends Modifier {
 
 	@Override
 	public void loadModifier(ConfigurationSection cfg) {
-		init(cfg.getString("modifier"), cfg.getDouble("chance"), cfg.getDouble("min_damage"), cfg.getDouble("heal"));
-	}
-
-	private void init(String modifier, double chance, double minDamage, double heal) {
-		this.modifier=clr(modifier);
-		this.chance=chance;
-		this.minDamage=minDamage;
-		this.heal=heal;
+		this.modifier = clr(cfg.getString("modifier"));
+		this.chance = cfg.getDouble("chance");
+		this.minDamage = cfg.getDouble("min_damage");
+		this.heal = cfg.getDouble("heal");
 	}
 
 	@EventHandler

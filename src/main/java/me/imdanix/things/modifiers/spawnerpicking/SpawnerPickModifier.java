@@ -33,8 +33,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 import java.util.ArrayList;
 import java.util.List;
 
-import static me.imdanix.things.utils.Utils.clr;
 import static me.imdanix.things.modifiers.spawnerpicking.SpawnerSetting.setSpawner;
+import static me.imdanix.things.utils.Utils.clr;
 
 public class SpawnerPickModifier extends Modifier {
 
@@ -47,13 +47,9 @@ public class SpawnerPickModifier extends Modifier {
 
 	@Override
 	public void loadModifier(ConfigurationSection cfg) {
-		init(cfg.getString("modifier"), cfg.getBoolean("one_use"), cfg.getConfigurationSection("mobs"));
-	}
-
-	private void init(String modifier, boolean oneUse, ConfigurationSection mobs) {
-		this.modifier=clr(modifier);
-		this.oneUse=oneUse;
-		SpawnerSetting.generateSettings(mobs);
+		this.modifier=clr(cfg.getString("modifier"));
+		this.oneUse=cfg.getBoolean("one_use");
+		SpawnerSetting.generateSettings(cfg.getConfigurationSection("mobs"));
 	}
 	
 	@EventHandler
