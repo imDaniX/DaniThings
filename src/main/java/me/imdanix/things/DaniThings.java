@@ -19,10 +19,10 @@ package me.imdanix.things;
 
 import me.imdanix.things.command.CommandManager;
 import me.imdanix.things.configuration.SimpleConfiguration;
-import me.imdanix.things.easymode.EasyThings;
 import me.imdanix.things.hardmode.AfkFishing;
 import me.imdanix.things.hardmode.HardElytras;
 import me.imdanix.things.listener.Bastard;
+import me.imdanix.things.listener.EasyThings;
 import me.imdanix.things.listener.Things;
 import me.imdanix.things.modifiers.ChancedDurabilityModifier;
 import me.imdanix.things.modifiers.ExpWithdrawModifier;
@@ -34,6 +34,9 @@ import me.imdanix.things.modifiers.VampireModifier;
 import me.imdanix.things.modifiers.hottouch.HotTouchModifier;
 import me.imdanix.things.modifiers.itemsaver.SavingModifier;
 import me.imdanix.things.modifiers.spawnerpicking.SpawnerPickModifier;
+import org.bukkit.Bukkit;
+import org.bukkit.World;
+import org.bukkit.generator.BlockPopulator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class DaniThings extends JavaPlugin {
@@ -75,5 +78,11 @@ public final class DaniThings extends JavaPlugin {
 		new TeleporterModifier();
 
 		config.loadConfigurables();
+
+		BlockPopulator populator = new EndPopulator();
+		if(config.getYml().getBoolean("things.end_corals"))
+			for(World world : Bukkit.getWorlds())
+				if(world.getEnvironment() == World.Environment.THE_END)
+					world.getPopulators().add(populator);
 	}
 }

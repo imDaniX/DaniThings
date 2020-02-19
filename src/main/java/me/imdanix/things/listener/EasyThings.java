@@ -15,7 +15,7 @@
  * along with this program.  If not, see <https://www.gnu.org/licenses/>.
  */
 
-package me.imdanix.things.easymode;
+package me.imdanix.things.listener;
 
 import me.imdanix.things.configuration.ConfigurableListener;
 import org.bukkit.Location;
@@ -30,7 +30,7 @@ public class EasyThings extends ConfigurableListener {
 	private boolean shelvesDrop;
 
 	public EasyThings() {
-		super("easydrop");
+		super("things.shelves_drop");
 	}
 
 	@Override

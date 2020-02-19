@@ -47,9 +47,8 @@ things:
   over_enchant_stopper: true
   over_enchant_silverfish: true
   disallow_colored_rename: false
-
-easymode:
   shelves_drop: true
+  end_corals: false
 
 hardmode:
   elytras:
