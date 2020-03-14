@@ -18,10 +18,10 @@
 package me.imdanix.things.listener;
 
 import me.imdanix.things.DaniThings;
+import me.imdanix.things.configuration.ConfigurableListener;
 import me.imdanix.things.events.PlayerDamageEntityEvent;
 import me.imdanix.things.utils.Rnd;
 import me.imdanix.things.utils.Utils;
-import me.imdanix.things.configuration.ConfigurableListener;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -48,6 +48,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityTeleportEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
+import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.inventory.InventoryHolder;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.EnchantmentStorageMeta;
@@ -55,7 +56,7 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class Things extends ConfigurableListener {
 	private boolean ghostBlocks, teleportDupe, fireworkDamage, enderCrystalExplode, pvpStatistic,
-			overEnchant, overEnchantStopper, overEnchantSilverfish, colorRename;
+			overEnchant, overEnchantStopper, overEnchantSilverfish, colorRename, shelvesDrop, minecartDrop;
 
 	public Things() {
 		super("things");
@@ -63,15 +64,34 @@ public class Things extends ConfigurableListener {
 
 	@Override
 	public void load(ConfigurationSection cfg) {
-		this.ghostBlocks = cfg.getBoolean("ghost_blocks", false);
-		this.teleportDupe = cfg.getBoolean("teleport_dupe", true);
-		this.fireworkDamage = cfg.getBoolean("firework_damage", true);
-		this.enderCrystalExplode = cfg.getBoolean("endercrystal_block_damage", false);
-		this.pvpStatistic = cfg.getBoolean("pvp_statistic", true);
-		this.overEnchant = cfg.getBoolean("over_enchant", true);
-		this.overEnchantStopper = cfg.getBoolean("over_enchant_stopper", true);
-		this.overEnchantSilverfish = cfg.getBoolean("over_enchant_silverfish", true);
-		this.colorRename = cfg.getBoolean("disallow_colored_rename", false);
+		ghostBlocks = cfg.getBoolean("ghost_blocks", false);
+		teleportDupe = cfg.getBoolean("teleport_dupe", true);
+		fireworkDamage = cfg.getBoolean("firework_damage", true);
+		enderCrystalExplode = cfg.getBoolean("endercrystal_block_damage", false);
+		pvpStatistic = cfg.getBoolean("pvp_statistic", true);
+		overEnchant = cfg.getBoolean("over_enchant", true);
+		overEnchantStopper = cfg.getBoolean("over_enchant_stopper", true);
+		overEnchantSilverfish = cfg.getBoolean("over_enchant_silverfish", true);
+		colorRename = cfg.getBoolean("disallow_colored_rename", false);
+		shelvesDrop = cfg.getBoolean("shelves_drop", true);
+		minecartDrop = cfg.getBoolean("minecart_drop");
+	}
+
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onStand(VehicleExitEvent event) {
+		if(!minecartDrop) return;
+		if(event.getExited().getType() == EntityType.PLAYER && event.getVehicle().getType() == EntityType.MINECART) {
+			event.getVehicle().remove();
+			((Player)event.getExited()).getInventory().addItem(new ItemStack(Material.MINECART));
+		}
+	}
+
+	@EventHandler(priority = EventPriority.HIGHEST)
+	public void onBreak(BlockBreakEvent e) {
+		if(e.isCancelled() || !shelvesDrop || e.getBlock().getType() != Material.BOOKSHELF || !e.isDropItems()) return;
+		e.setDropItems(false);
+		Location loc = e.getBlock().getLocation();
+		loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.BOOKSHELF));
 	}
 
 	@EventHandler

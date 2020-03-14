@@ -49,6 +49,7 @@ things:
   disallow_colored_rename: false
   shelves_drop: true
   end_corals: false
+  minecart_drop: true
 
 hardmode:
   elytras:
