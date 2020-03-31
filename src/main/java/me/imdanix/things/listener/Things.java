@@ -73,8 +73,8 @@ public class Things extends ConfigurableListener {
 		overEnchantStopper = cfg.getBoolean("over_enchant_stopper", true);
 		overEnchantSilverfish = cfg.getBoolean("over_enchant_silverfish", true);
 		colorRename = cfg.getBoolean("disallow_colored_rename", false);
-		shelvesDrop = cfg.getBoolean("shelves_drop", true);
-		minecartDrop = cfg.getBoolean("minecart_drop");
+		shelvesDrop = cfg.getBoolean("shelves_drop", false);
+		minecartDrop = cfg.getBoolean("minecart_drop", false);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
