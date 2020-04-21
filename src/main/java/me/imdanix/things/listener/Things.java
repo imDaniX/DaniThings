@@ -47,6 +47,8 @@ import org.bukkit.event.entity.EntityDamageEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityTeleportEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
+import org.bukkit.event.hanging.HangingBreakByEntityEvent;
+import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.inventory.InventoryHolder;
@@ -56,7 +58,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 public class Things extends ConfigurableListener {
 	private boolean ghostBlocks, teleportDupe, fireworkDamage, enderCrystalExplode, pvpStatistic,
-			overEnchant, overEnchantStopper, overEnchantSilverfish, colorRename, shelvesDrop, minecartDrop;
+			overEnchant, overEnchantStopper, overEnchantSilverfish, colorRename, shelvesDrop, minecartDrop,
+			protectStands, protectFrames;
 
 	public Things() {
 		super("things");
@@ -75,6 +78,8 @@ public class Things extends ConfigurableListener {
 		colorRename = cfg.getBoolean("disallow_colored_rename", false);
 		shelvesDrop = cfg.getBoolean("shelves_drop", false);
 		minecartDrop = cfg.getBoolean("minecart_drop", false);
+		protectFrames = cfg.getBoolean("protect_frames", true);
+		protectStands = cfg.getBoolean("protect_stands", true);
 	}
 
 	@EventHandler(priority = EventPriority.HIGHEST)
@@ -176,6 +181,27 @@ public class Things extends ConfigurableListener {
 		if(!enderCrystalExplode) return;
 		if(e.getEntityType()==EntityType.ENDER_CRYSTAL)
 			e.blockList().clear();
+	}
+
+	@EventHandler
+	public void onEntityDamage(EntityDamageByEntityEvent event) {
+		if(!protectStands) return;
+		if(event.getEntityType() == EntityType.ARMOR_STAND) {
+			EntityDamageEvent.DamageCause cause = event.getCause();
+			if(cause == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION || cause == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION ||
+					(cause == EntityDamageEvent.DamageCause.PROJECTILE && event.getDamager().getType() != EntityType.PLAYER))
+				event.setCancelled(true);
+		}
+	}
+
+	@EventHandler
+	public void onHangingDestroy(HangingBreakByEntityEvent event) {
+		if(!protectFrames) return;
+		HangingBreakEvent.RemoveCause cause = event.getCause();
+		if(cause == HangingBreakEvent.RemoveCause.EXPLOSION ||
+				((cause == HangingBreakEvent.RemoveCause.DEFAULT || cause == HangingBreakEvent.RemoveCause.ENTITY) &&
+						(event.getRemover() == null || event.getRemover().getType() != EntityType.PLAYER)))
+			event.setCancelled(true);
 	}
 
 	@EventHandler
