@@ -19,7 +19,6 @@ package me.imdanix.things.modifiers.spawnerpicking;
 
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.CreatureSpawner;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.EntityType;
@@ -34,7 +33,7 @@ import java.util.Map;
 import static me.imdanix.things.utils.Utils.clr;
 
 public class SpawnerSetting {
-	public static Map<EntityType, SpawnerSetting> settings;
+	private static Map<EntityType, SpawnerSetting> settings;
 	private final EntityType type;
 	private final boolean failing;
 	private final String lore;
@@ -61,18 +60,14 @@ public class SpawnerSetting {
 		return is;
 	}
 
-	public static void setSpawner(Block bl, List<String> lore) {
-		EntityType type=null;
-		for(SpawnerSetting ss:settings.values()) {
-			if(lore.contains(ss.getLore()))
-				type=ss.getType();
+	public static void setSpawner(Block block, List<String> lore) {
+		for(SpawnerSetting setting : settings.values()) {
+			if(lore.contains(setting.getLore())) {
+				CreatureSpawner sp = (CreatureSpawner) block.getState();
+				sp.setSpawnedType(setting.getType());
+				sp.update();
+			}
 		}
-		if(type==null)
-			return;
-		BlockState bs = bl.getState();
-		CreatureSpawner sp = (CreatureSpawner) bs;
-		sp.setSpawnedType(type);
-		bs.update();
 	}
 
 	public static ItemStack generateItem(EntityType type) {

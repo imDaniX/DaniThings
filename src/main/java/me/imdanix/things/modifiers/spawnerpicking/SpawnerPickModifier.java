@@ -55,10 +55,11 @@ public class SpawnerPickModifier extends Modifier {
 	@EventHandler
 	public void onBlockPlace(BlockPlaceEvent e) {
 		Block b = e.getBlockPlaced();
+		if(b.getType() != Material.SPAWNER) return;
 		ItemStack item = e.getItemInHand();
 		if(item.hasItemMeta()) {
-			List<String> lore=item.getItemMeta().getLore();
-			if(lore!=null)
+			List<String> lore = item.getItemMeta().getLore();
+			if(lore != null)
 				setSpawner(b, lore);
 		}
 	}
