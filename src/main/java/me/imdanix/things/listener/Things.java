@@ -48,7 +48,6 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.event.entity.EntityTeleportEvent;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.hanging.HangingBreakByEntityEvent;
-import org.bukkit.event.hanging.HangingBreakEvent;
 import org.bukkit.event.inventory.PrepareAnvilEvent;
 import org.bukkit.event.vehicle.VehicleExitEvent;
 import org.bukkit.inventory.InventoryHolder;
@@ -197,10 +196,7 @@ public class Things extends ConfigurableListener {
 	@EventHandler
 	public void onHangingDestroy(HangingBreakByEntityEvent event) {
 		if(!protectFrames) return;
-		HangingBreakEvent.RemoveCause cause = event.getCause();
-		if(cause == HangingBreakEvent.RemoveCause.EXPLOSION ||
-				((cause == HangingBreakEvent.RemoveCause.DEFAULT || cause == HangingBreakEvent.RemoveCause.ENTITY) &&
-						(event.getRemover() == null || event.getRemover().getType() != EntityType.PLAYER)))
+		if(event.getRemover() == null || event.getRemover().getType() != EntityType.PLAYER)
 			event.setCancelled(true);
 	}
 
