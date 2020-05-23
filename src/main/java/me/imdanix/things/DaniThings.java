@@ -22,6 +22,7 @@ import me.imdanix.things.configuration.SimpleConfiguration;
 import me.imdanix.things.hardmode.AfkFishing;
 import me.imdanix.things.hardmode.HardElytras;
 import me.imdanix.things.listener.Bastard;
+import me.imdanix.things.listener.DragonEgg;
 import me.imdanix.things.listener.Things;
 import me.imdanix.things.modifiers.ChancedDurabilityModifier;
 import me.imdanix.things.modifiers.ExpWithdrawModifier;
@@ -59,6 +60,7 @@ public final class DaniThings extends JavaPlugin {
 
 		new Bastard();
 		new Things();
+		new DragonEgg();
 
 		new AfkFishing();
 		new HardElytras();

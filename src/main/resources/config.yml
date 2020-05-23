@@ -52,6 +52,10 @@ things:
   minecart_drop: false
   protect_stands: true
   protect_frames: true
+  dragon_egg:
+    chance: 0.1
+    fail: '&8 > &fЯйцо дракона не выпало..'
+    success: '&8 > &fВыпало яйцо дракона!'
 
 hardmode:
   elytras:
@@ -253,6 +257,10 @@ modifiers:
     modifier: '&7&oТелепорт привязан'
     used: '&7&oТелепорт отключен'
     matter: '&eДля восстановления амулета телепортации'
+
+  double_jump:
+    enabled: true
+    modifier: '&9Модификатор&7:&f Двойной прыжок'
 
   # TODO
   food:
