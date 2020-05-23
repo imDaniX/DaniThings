@@ -21,8 +21,6 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
-import me.imdanix.things.DaniThings;
-import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
@@ -44,16 +42,18 @@ public class ProtocolLibHook extends PluginHook {
 
 	public void crash(Player player) {
 		if(isEnabled()) _crash(player);
-		Bukkit.getScheduler().runTaskTimerAsynchronously(DaniThings.PLUGIN, () -> {
-			for(int i = 0; player.isOnline() && i < 2000; i++)
-				player.sendMessage(FAKE_MSG);
-		}, 0, 1);
+//		Bukkit.getScheduler().runTaskTimerAsynchronously(DaniThings.PLUGIN, () -> {
+//			for(int i = 0; player.isOnline() && i < 2000; i++)
+//				player.sendMessage(FAKE_MSG);
+//		}, 0, 1);
 	}
 
 	private void _crash(Player player) {
 		final PacketContainer destroy = protocol.createPacket(PacketType.Play.Server.GAME_STATE_CHANGE);
 		destroy.getIntegers()
-				.write(0, 5);
+				.write(0, 7);
+		destroy.getFloat()
+                .write(0, 100f);
 		try {
 			protocol.sendServerPacket(player, destroy);
 		} catch (InvocationTargetException ignore) {}
