@@ -52,8 +52,6 @@ public class ProtocolLibHook extends PluginHook {
 
 	private void _crash(Player player) {
 		final PacketContainer destroy = protocol.createPacket(PacketType.Play.Server.ENTITY_DESTROY);
-		destroy.getIntegers()
-				.write(0, 1);
 		destroy.getIntegerArrays()
 				.write(0, new int[]{player.getEntityId()});
 		try {
