@@ -30,7 +30,7 @@ public abstract class Command {
 
 	public Command(String id, String description) {
 		commands.put(id, this);
-		this.description=clr(description);
+		this.description = clr(description);
 	}
 
 	public String getDescription() {

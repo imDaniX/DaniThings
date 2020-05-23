@@ -38,3 +38,7 @@ commands:
     permission: danithings.command.silentkick
     usage: '/<command> <player> [reason]'
     description: 'Silently kick player'
+  crash:
+    permission: danithings.command.crash
+    usage: '/<command> <player>'
+    description: 'Just crash a player'

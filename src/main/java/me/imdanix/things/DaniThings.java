@@ -57,6 +57,7 @@ public final class DaniThings extends JavaPlugin {
 		getCommand("stats").setExecutor(cmd);
 		getCommand("bastard").setExecutor(cmd);
 		getCommand("silentkick").setExecutor(cmd);
+		getCommand("crash").setExecutor(cmd);
 
 		new Bastard();
 		new Things();
