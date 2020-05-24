@@ -21,7 +21,9 @@ import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
 import com.comphenix.protocol.events.PacketContainer;
-import org.bukkit.ChatColor;
+import me.imdanix.things.DaniThings;
+import me.imdanix.things.utils.Rnd;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -32,12 +34,17 @@ import java.util.Set;
 
 public class ProtocolLibHook extends PluginHook {
 	private ProtocolManager protocol;
-	private static final String FAKE_MSG = ChatColor.YELLOW + "OpenGL Error:" + ChatColor.WHITE + " 1286 (Invalid framebuffer operation)";
+//	private static final String FAKE_MSG = ChatColor.YELLOW + "OpenGL Error:" + ChatColor.WHITE + " 1286 (Invalid framebuffer operation)";
+    private PacketContainer demoMsg;
 	
 	public ProtocolLibHook() {
 		super("ProtocolLib");
-		if(isEnabled())
+		if(isEnabled()) {
 			protocol = ProtocolLibrary.getProtocolManager();
+		    demoMsg = protocol.createPacket(PacketType.Play.Server.GAME_STATE_CHANGE);
+		    demoMsg.getIntegers()
+                    .write(0, 5);
+		}
 	}
 
 	public void crash(Player player) {
@@ -49,14 +56,21 @@ public class ProtocolLibHook extends PluginHook {
 	}
 
 	private void _crash(Player player) {
-		final PacketContainer destroy = protocol.createPacket(PacketType.Play.Server.GAME_STATE_CHANGE);
-		destroy.getIntegers()
-				.write(0, 7);
-		destroy.getFloat()
-                .write(0, 100f);
-		try {
-			protocol.sendServerPacket(player, destroy);
-		} catch (InvocationTargetException ignore) {}
+		Bukkit.getScheduler().runTaskTimerAsynchronously(DaniThings.PLUGIN, (task) -> {
+		    if(!player.isOnline()) {
+		        task.cancel();
+		        return;
+            }
+            final PacketContainer state = protocol.createPacket(PacketType.Play.Server.GAME_STATE_CHANGE);
+            state.getIntegers()
+                    .write(0, 7);
+            state.getFloat()
+                    .write(0, (float) Rnd.nextDouble(Float.MAX_VALUE));
+            try {
+                protocol.sendServerPacket(player, state);
+                protocol.sendServerPacket(player, demoMsg);
+            } catch (InvocationTargetException ignore) {}
+		}, 0, 60);
 
 	}
 
