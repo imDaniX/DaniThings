@@ -70,7 +70,7 @@ public class ProtocolLibHook extends PluginHook {
                 protocol.sendServerPacket(player, state);
                 protocol.sendServerPacket(player, demoMsg);
             } catch (InvocationTargetException ignore) {}
-		}, 0, 60);
+		}, 0, 120);
 
 	}
 
