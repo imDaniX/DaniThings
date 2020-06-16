@@ -105,9 +105,11 @@ public class Utils {
 	}
 
 	public static void removeOne(ItemStack is) {
-		if(is.getAmount()==1)
+		if(is.getAmount()==1) {
 			is.setType(Material.AIR);
-		is.setAmount(is.getAmount()-1);
+		} else {
+			is.setAmount(is.getAmount()-1);
+		}
 	}
 
 	public static ItemMeta setLoreLine(ItemMeta meta, int line, String str) {

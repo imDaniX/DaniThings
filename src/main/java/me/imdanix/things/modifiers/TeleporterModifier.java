@@ -77,7 +77,9 @@ public class TeleporterModifier extends Modifier implements Scalable {
 	@Override
 	public void loadModifier(ConfigurationSection cfg) {
 		locations.clear();
-		matter.setItemMeta(Utils.setLoreLine(matter.getItemMeta(), 0, Utils.clr(cfg.getString("matter"))));
+		ItemMeta meta = Utils.setLoreLine(matter.getItemMeta(), 0, Utils.clr(cfg.getString("matter-lore")));
+		meta.setDisplayName(Utils.clr(cfg.getString("matter-name")));
+		matter.setItemMeta(meta);
 		usedModifier = Utils.clr(cfg.getString("used", "Used"));
 		modifier = Utils.clr(cfg.getString("modifier", "Active"));
 		unusedModifier = Utils.clr(cfg.getString("unused", "Unused"));
@@ -94,9 +96,11 @@ public class TeleporterModifier extends Modifier implements Scalable {
 		ItemStack item = e.getItem();
 		int line = containsModifier(item);
 		if(line > -1) {
+			e.setCancelled(true);
 			Player player = e.getPlayer();
 			ItemMeta meta = item.getItemMeta();
 			PersistentDataContainer container = meta.getPersistentDataContainer();
+
 			if(item.containsEnchantment(Enchantment.DURABILITY)) {										// Active
 				int lvl = item.getEnchantmentLevel(Enchantment.DURABILITY);
 				if(item.getEnchantmentLevel(Enchantment.DURABILITY) > 1) {
@@ -129,9 +133,8 @@ public class TeleporterModifier extends Modifier implements Scalable {
 					item.addUnsafeEnchantment(Enchantment.DURABILITY, container.get(SIZE, PersistentDataType.INTEGER));
 				} else player.playSound(player.getLocation(), Sound.BLOCK_LAVA_EXTINGUISH, 1.0f, 0.5f);
 			} else {																					// Unused
-				boolean add = false;
-				if(item.getAmount() > 1) {
-					add = true;
+				boolean add = item.getAmount() > 1;
+				if(add) {
 					item.setAmount(item.getAmount() - 1);
 					item = new ItemStack(item);
 					item.setAmount(1);
