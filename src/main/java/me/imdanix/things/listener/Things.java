@@ -187,8 +187,9 @@ public class Things extends ConfigurableListener {
 		if(!protectStands) return;
 		if(event.getEntityType() == EntityType.ARMOR_STAND) {
 			EntityDamageEvent.DamageCause cause = event.getCause();
-			if(cause == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION || cause == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION ||
-					(cause == EntityDamageEvent.DamageCause.PROJECTILE && event.getDamager().getType() != EntityType.PLAYER))
+			if(cause == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION ||
+					cause == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION ||
+					cause == EntityDamageEvent.DamageCause.PROJECTILE)
 				event.setCancelled(true);
 		}
 	}
