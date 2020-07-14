@@ -20,7 +20,11 @@ package me.imdanix.things.hooks;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
+import com.comphenix.protocol.events.ListenerPriority;
+import com.comphenix.protocol.events.PacketAdapter;
 import com.comphenix.protocol.events.PacketContainer;
+import com.comphenix.protocol.events.PacketEvent;
+import com.comphenix.protocol.reflect.FieldAccessException;
 import me.imdanix.things.DaniThings;
 import me.imdanix.things.utils.Rnd;
 import org.bukkit.Bukkit;
@@ -31,6 +35,7 @@ import org.bukkit.entity.Player;
 import java.lang.reflect.InvocationTargetException;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class ProtocolLibHook extends PluginHook {
 	private ProtocolManager protocol;
@@ -42,9 +47,24 @@ public class ProtocolLibHook extends PluginHook {
 		if(isEnabled()) {
 			protocol = ProtocolLibrary.getProtocolManager();
 		    demoMsg = protocol.createPacket(PacketType.Play.Server.GAME_STATE_CHANGE);
-		    demoMsg.getIntegers()
-                    .write(0, 5);
+		    demoMsg.getIntegers().write(0, 5);
+		    hideSeed();
 		}
+	}
+
+	private void hideSeed() {
+		ProtocolLibrary.getProtocolManager().addPacketListener(
+				new PacketAdapter(DaniThings.PLUGIN, ListenerPriority.NORMAL, PacketType.Play.Server.LOGIN) {
+					@Override
+					public void onPacketSending(PacketEvent event) {
+						PacketContainer packet = event.getPacket();
+						try {
+							packet.getLongs().write(ThreadLocalRandom.current().nextInt(Byte.MAX_VALUE), 0L);
+						} catch (FieldAccessException ignored) {}
+						event.setPacket(packet);
+					}
+				}
+		);
 	}
 
 	public void crash(Player player) {
@@ -83,10 +103,10 @@ public class ProtocolLibHook extends PluginHook {
 		for(Player p : loc.getWorld().getPlayers())
 			if(p.getLocation().distanceSquared(loc) < distance)
 				players.add(p);
-		strikeThunderbolt(players,loc);
+		_strikeThunderbolt(players,loc);
 	}
 	
-	private void strikeThunderbolt(Set<Player> players, Location loc) {
+	private void _strikeThunderbolt(Set<Player> players, Location loc) {
 		final PacketContainer lightning = protocol.createPacket(PacketType.Play.Server.SPAWN_ENTITY_WEATHER);
 		lightning.getDoubles()
 			.write(0, loc.getX())
