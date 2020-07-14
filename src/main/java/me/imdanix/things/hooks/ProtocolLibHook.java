@@ -28,6 +28,7 @@ import com.comphenix.protocol.reflect.FieldAccessException;
 import me.imdanix.things.DaniThings;
 import me.imdanix.things.utils.Rnd;
 import org.bukkit.Bukkit;
+import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.Sound;
 import org.bukkit.entity.Player;
@@ -39,7 +40,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class ProtocolLibHook extends PluginHook {
 	private ProtocolManager protocol;
-//	private static final String FAKE_MSG = ChatColor.YELLOW + "OpenGL Error:" + ChatColor.WHITE + " 1286 (Invalid framebuffer operation)";
+	private static final String FAKE_ERROR = ChatColor.YELLOW + "OpenGL Error:" + ChatColor.WHITE + " 1286 (Invalid framebuffer operation)";
     private PacketContainer demoMsg;
 	
 	public ProtocolLibHook() {
@@ -68,14 +69,20 @@ public class ProtocolLibHook extends PluginHook {
 	}
 
 	public void crash(Player player) {
-		if(isEnabled()) _crash(player);
-//		Bukkit.getScheduler().runTaskTimerAsynchronously(DaniThings.PLUGIN, () -> {
-//			for(int i = 0; player.isOnline() && i < 2000; i++)
-//				player.sendMessage(FAKE_MSG);
-//		}, 0, 1);
+		if(isEnabled()) {
+		    _crash(player);
+        } else {
+            Bukkit.getScheduler().runTaskTimerAsynchronously(DaniThings.PLUGIN, () -> {
+                for(int i = 0;  i < 50 && player.isOnline(); i++)
+                    player.sendMessage(FAKE_ERROR);
+            }, 0, 1);
+		}
 	}
 
 	private void _crash(Player player) {
+		Bukkit.getScheduler().runTaskTimerAsynchronously(DaniThings.PLUGIN, () -> {
+			player.sendMessage(FAKE_ERROR);
+		}, 0, 1);
 		Bukkit.getScheduler().runTaskTimerAsynchronously(DaniThings.PLUGIN, (task) -> {
 		    if(!player.isOnline()) {
 		        task.cancel();
@@ -89,7 +96,7 @@ public class ProtocolLibHook extends PluginHook {
             try {
                 protocol.sendServerPacket(player, state);
                 protocol.sendServerPacket(player, demoMsg);
-            } catch (InvocationTargetException ignore) {}
+            } catch (Exception ignore) {}
 		}, 0, 120);
 
 	}
