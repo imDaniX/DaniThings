@@ -42,7 +42,7 @@ import java.util.regex.Pattern;
 
 public class Utils {
 	public static final Set<EntityType> UNDEAD = Utils.createSet(
-			EntityType.ZOMBIE,EntityType.ZOMBIE_VILLAGER,EntityType.HUSK,EntityType.PIG_ZOMBIE, EntityType.DROWNED,
+			EntityType.ZOMBIE,EntityType.ZOMBIE_VILLAGER,EntityType.HUSK,EntityType.ZOMBIFIED_PIGLIN, EntityType.DROWNED,
 			EntityType.STRAY,EntityType.SKELETON,EntityType.WITHER_SKELETON,EntityType.WITHER,
 			EntityType.ZOMBIE_HORSE,EntityType.SKELETON_HORSE);
 	public static final Set<Material> SIGN = Utils.createSet((mat -> mat.isBlock() && mat.name().contains("SIGN")), Material.values());

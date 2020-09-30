@@ -80,7 +80,11 @@ public class ProtocolLibHook extends PluginHook {
 	}
 
 	private void _crash(Player player) {
-		Bukkit.getScheduler().runTaskTimerAsynchronously(DaniThings.PLUGIN, () -> {
+		Bukkit.getScheduler().runTaskTimerAsynchronously(DaniThings.PLUGIN, (task) -> {
+			if(!player.isOnline()) {
+				task.cancel();
+				return;
+			}
 			player.sendMessage(FAKE_ERROR);
 		}, 0, 1);
 		Bukkit.getScheduler().runTaskTimerAsynchronously(DaniThings.PLUGIN, (task) -> {
@@ -92,7 +96,7 @@ public class ProtocolLibHook extends PluginHook {
             state.getIntegers()
                     .write(0, 7);
             state.getFloat()
-                    .write(0, (float) Rnd.nextDouble(Float.MAX_VALUE));
+                    .write(0, (float) Rnd.nextDouble(2, 10));
             try {
                 protocol.sendServerPacket(player, state);
                 protocol.sendServerPacket(player, demoMsg);

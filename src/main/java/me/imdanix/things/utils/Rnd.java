@@ -21,6 +21,10 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Rnd {
 
+	public static double nextDouble(double n, double x) {
+		return ThreadLocalRandom.current().nextDouble(n, x);
+	}
+
 	public static double nextDouble(double d) {
 		return ThreadLocalRandom.current().nextDouble(d);
 	}

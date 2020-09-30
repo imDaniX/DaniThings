@@ -130,10 +130,10 @@ public class ThorModifier extends Modifier {
 		if(!(ent instanceof Damageable)) return;
 		if(transform)
 			switch(ent.getType()) {
-				case PIG_ZOMBIE:
+				case ZOMBIFIED_PIGLIN:
 					return;
 				case PIG: {
-					ent.getWorld().spawnEntity(ent.getLocation(), EntityType.PIG_ZOMBIE);
+					ent.getWorld().spawnEntity(ent.getLocation(), EntityType.ZOMBIFIED_PIGLIN);
 					ent.remove();
 					return;
 				}

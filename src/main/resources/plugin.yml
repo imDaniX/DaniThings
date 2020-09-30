@@ -1,7 +1,7 @@
 name: DaniThings
 version: ${project.version}
 main: me.imdanix.things.DaniThings
-api-version: 1.13
+api-version: 1.16
 softdepend: [ProtocolLib, WorldGuard, PlaceholderAPI, Essentials]
 authors: [imDaniX]
 description: ${project.description}
