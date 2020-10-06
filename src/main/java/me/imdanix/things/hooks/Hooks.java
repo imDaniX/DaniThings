@@ -22,5 +22,4 @@ public interface Hooks {
 	ProtocolLibHook PL_HOOK = new ProtocolLibHook();
 	PlaceholderAPIHook PAPI_HOOK = new PlaceholderAPIHook();
 	WorldGuardHook WG_HOOK = new WorldGuardHook();
-
 }

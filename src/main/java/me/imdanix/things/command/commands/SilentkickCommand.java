@@ -42,11 +42,12 @@ public class SilentkickCommand extends Command {
 		for(Player pl: Bukkit.getOnlinePlayers()) {
 			if(pl.getName().equalsIgnoreCase(args[0])) {
 				if(args.length > 1) {
-					StringBuilder reason = new StringBuilder(args.length - 1);
+					StringBuilder reason = new StringBuilder();
 					for (int i = 1; i < args.length; i++)
 						reason.append(args[i]);
 					pl.kickPlayer(Utils.clr(reason.toString()));
 				} else pl.kickPlayer("");
+				return;
 			}
 		}
 		failed(s, FailInfo.OFFLINE_PLAYER);
