@@ -48,7 +48,11 @@ public class ProtocolLibHook extends PluginHook {
 		if(isEnabled()) {
 			protocol = ProtocolLibrary.getProtocolManager();
 		    demoMsg = protocol.createPacket(PacketType.Play.Server.GAME_STATE_CHANGE);
-		    demoMsg.getBytes().write(0, (byte) 5);
+		    try {
+		    	demoMsg.getIntegers().write(0, 5);
+		    } catch (Exception e) {
+		    	DaniThings.PLUGIN.getLogger().warning("Failed to write int value for the Crasher.");
+			}
 		    hideSeed();
 		}
 	}
@@ -88,6 +92,8 @@ public class ProtocolLibHook extends PluginHook {
 			player.sendMessage(FAKE_ERROR);
 		}, 1, 1);
 		final PacketContainer state = protocol.createPacket(PacketType.Play.Server.GAME_STATE_CHANGE);
+        state.getIntegers()
+                .write(0, 7);
 		state.getFloat()
 				.write(0, 25f);
 		try {
@@ -98,14 +104,14 @@ public class ProtocolLibHook extends PluginHook {
 		        task.cancel();
 		        return;
             }
-            state.getBytes()
-                    .write(0, (byte) 7);
             state.getFloat()
                     .write(0, (float) Rnd.nextDouble(2, 10));
             try {
                 protocol.sendServerPacket(player, state);
                 protocol.sendServerPacket(player, demoMsg);
-            } catch (Exception ignore) {}
+            } catch (Exception ignore) {
+            	task.cancel();
+			}
 		}, 20, 120);
 
 	}
