@@ -49,7 +49,7 @@ public class NoFallModifier extends Modifier implements Scalable {
 		this.percentUsage = cfg.getBoolean("percent_usage");
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onFall(EntityDamageEvent e) {
 		if(!isEnabled()||e.getEntityType()!=EntityType.PLAYER||e.getCause()!=EntityDamageEvent.DamageCause.FALL)
 			return;

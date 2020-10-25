@@ -60,7 +60,7 @@ public class HardElytras extends ConfigurableListener {
 		messages.put("failed_cooldown", Utils.clr(cfg.getString("messages.failed_cooldown", "")));
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	public void onFirework(PlayerInteractEvent e) {
 		if(!enabled) return;
 		Player player = e.getPlayer();

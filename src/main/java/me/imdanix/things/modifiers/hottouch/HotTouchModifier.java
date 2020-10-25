@@ -58,7 +58,7 @@ public class HotTouchModifier extends Modifier implements Scalable {
 		calculateFortune(cfg.getInt("precalculate_fortune"), 1);
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onAttack(PlayerDamageEntityEvent e) {
 		if(!isEnabled()||fireMobs==0||e.getDamage()<4)
 			return;
@@ -66,7 +66,7 @@ public class HotTouchModifier extends Modifier implements Scalable {
 			e.getDamaged().setFireTicks(fireMobs);
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	public void onBlockBreak(BlockBreakEvent e) {
 		if(!(isEnabled()&&e.isDropItems()))
 			return;

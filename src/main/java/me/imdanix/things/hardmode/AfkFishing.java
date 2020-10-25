@@ -59,7 +59,7 @@ public class AfkFishing extends ConfigurableListener {
 
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onFishing(PlayerFishEvent e) {
 		if(!enabled || e.getState() != PlayerFishEvent.State.BITE) return;
 		Player player = e.getPlayer();

@@ -49,7 +49,7 @@ public class VampireModifier extends Modifier {
 		this.heal = cfg.getDouble("heal");
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onAttack(PlayerDamageEntityEvent e) {
 		if(!isEnabled())
 			return;

@@ -66,7 +66,7 @@ public class DoubleJumpModifier extends Modifier {
         }, 40, 40);
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onWear(PlayerArmorChangeEvent event) {
         if(event.getSlotType() != PlayerArmorChangeEvent.SlotType.FEET || event.getNewItem() == null) return;
         if(containsModifier(event.getNewItem()) > -1)
@@ -74,7 +74,7 @@ public class DoubleJumpModifier extends Modifier {
         else wearing.remove(event.getPlayer().getUniqueId());
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onShift(PlayerToggleSneakEvent event) {
         Player player = event.getPlayer();
         if(!event.isSneaking() || !isEnabled() || !wearing.contains(player.getUniqueId())) return;

@@ -52,7 +52,7 @@ public class SpawnerPickModifier extends Modifier {
 		SpawnerSetting.generateSettings(cfg.getConfigurationSection("mobs"));
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onBlockPlace(BlockPlaceEvent e) {
 		Block b = e.getBlockPlaced();
 		if(b.getType() != Material.SPAWNER) return;
@@ -64,7 +64,7 @@ public class SpawnerPickModifier extends Modifier {
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	public void onBlockBreak(BlockBreakEvent e) {
 		if(!this.isEnabled())
 			return;

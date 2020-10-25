@@ -74,7 +74,7 @@ public class ThorModifier extends Modifier {
 		this.messages=Utils.getMessages(cfg.getConfigurationSection("messages"));
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onAttack(PlayerDamageEntityEvent e) {
 		if(!isEnabled()||e.getDamage()<minDamage)
 			return;
@@ -102,7 +102,7 @@ public class ThorModifier extends Modifier {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(PlayerInteractEvent e) {
 		Action act=e.getAction();
 		if(!(act == Action.RIGHT_CLICK_AIR || act == Action.RIGHT_CLICK_BLOCK))

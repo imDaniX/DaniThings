@@ -61,7 +61,7 @@ public class SavingModifier extends Modifier implements Scalable {
 		this.percentUsage=percentUsage;
 	}
 	
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	public void onDeath(PlayerDeathEvent e) {
 		List<ItemStack> drops = e.getDrops();
 		Player player = e.getEntity();
@@ -80,7 +80,7 @@ public class SavingModifier extends Modifier implements Scalable {
 		players.put(player.getUniqueId(), items);
 	}
 	
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	public void onRespawn(PlayerRespawnEvent e) {
 		Player p = e.getPlayer();
 		Set<SavedItem> items = players.remove(p.getUniqueId());

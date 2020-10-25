@@ -45,7 +45,7 @@ public class ExpWithdrawModifier extends Modifier {
 		this.minLevel = cfg.getInt("min_level");
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerInteract(PlayerInteractEvent e) {
 		if(!this.isEnabled())
 			return;

@@ -49,7 +49,7 @@ public class BetterTNT extends ConfigurableListener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onExplodePrepare(ExplosionPrimeEvent event) {
         TNTProfile profile = profiles.getOrDefault(event.getEntity().getWorld().getName(), defProfile);
         if (profile.enable) {
@@ -57,7 +57,7 @@ public class BetterTNT extends ConfigurableListener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onExplode(EntityExplodeEvent event) {
         TNTProfile profile = profiles.getOrDefault(event.getEntity().getWorld().getName(), defProfile);
         if (profile.enable) {
@@ -72,7 +72,7 @@ public class BetterTNT extends ConfigurableListener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onBlockExplode(BlockExplodeEvent event) {
         TNTProfile profile = profiles.getOrDefault(event.getBlock().getWorld().getName(), defProfile);
         if (profile.enable) {
@@ -87,7 +87,7 @@ public class BetterTNT extends ConfigurableListener {
         }
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onDamage(EntityDamageEvent event) {
         TNTProfile profile = profiles.getOrDefault(event.getEntity().getWorld().getName(), defProfile);
         if (profile.enable && (event.getCause() == EntityDamageEvent.DamageCause.ENTITY_EXPLOSION || event.getCause() == EntityDamageEvent.DamageCause.BLOCK_EXPLOSION)) {

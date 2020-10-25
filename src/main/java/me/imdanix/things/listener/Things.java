@@ -81,7 +81,7 @@ public class Things extends ConfigurableListener {
 		protectStands = cfg.getBoolean("protect_stands", true);
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	public void onStand(VehicleExitEvent event) {
 		if(!minecartDrop) return;
 		if(event.getExited().getType() == EntityType.PLAYER && event.getVehicle().getType() == EntityType.MINECART) {
@@ -90,7 +90,7 @@ public class Things extends ConfigurableListener {
 		}
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	public void onBreak(BlockBreakEvent e) {
 		if(e.isCancelled() || !shelvesDrop || e.getBlock().getType() != Material.BOOKSHELF || !e.isDropItems()) return;
 		e.setDropItems(false);
@@ -98,7 +98,7 @@ public class Things extends ConfigurableListener {
 		loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.BOOKSHELF));
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onBlockBreak(BlockBreakEvent e) {
 	    Block bl = e.getBlock();
 	    if(ghostBlocks)
@@ -115,7 +115,7 @@ public class Things extends ConfigurableListener {
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onEntityTeleport(EntityTeleportEvent e) {
 		if(!teleportDupe)
 			return;
@@ -125,7 +125,7 @@ public class Things extends ConfigurableListener {
 			e.setCancelled(true);
 	}
 	
-	@EventHandler(priority=EventPriority.HIGHEST)
+	@EventHandler(ignoreCancelled = true, priority=EventPriority.HIGHEST)
 	public void onEntityFight(EntityDamageByEntityEvent e) {
 		if(!fireworkDamage)
 			return;
@@ -136,7 +136,7 @@ public class Things extends ConfigurableListener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPrepareAnvil(PrepareAnvilEvent e) {
 		ItemStack item1 = e.getInventory().getItem(0);
 		ItemStack result = e.getResult();
@@ -166,7 +166,7 @@ public class Things extends ConfigurableListener {
 		}
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onPlayerDeath(PlayerDeathEvent e) {
 		if(!pvpStatistic) return;
 		Player p=e.getEntity(); Player killer=p.getKiller();
@@ -175,14 +175,14 @@ public class Things extends ConfigurableListener {
 			killer.setStatistic(Statistic.PLAYER_KILLS, kills>1?kills-2:0);}
 	}
 	
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onEntityExplode(EntityExplodeEvent e) {
 		if(!enderCrystalExplode) return;
 		if(e.getEntityType()==EntityType.ENDER_CRYSTAL)
 			e.blockList().clear();
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onEntityDamage(EntityDamageByEntityEvent event) {
 		if(!protectStands) return;
 		if(event.getEntityType() == EntityType.ARMOR_STAND) {
@@ -194,14 +194,14 @@ public class Things extends ConfigurableListener {
 		}
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onHangingDestroy(HangingBreakByEntityEvent event) {
 		if(!protectFrames) return;
 		if(event.getRemover() == null || event.getRemover().getType() != EntityType.PLAYER)
 			event.setCancelled(true);
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onEntityDamageByEntity(EntityDamageByEntityEvent e) {
 		if(e.getDamager() instanceof Player && e.getCause() == EntityDamageEvent.DamageCause.ENTITY_ATTACK) {
 			PlayerDamageEntityEvent pE = new PlayerDamageEntityEvent((Player)e.getDamager(), e.getEntity(), e.getDamage(), e.isCancelled());

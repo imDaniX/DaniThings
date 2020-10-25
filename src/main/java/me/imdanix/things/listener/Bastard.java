@@ -45,7 +45,7 @@ public class Bastard extends ConfigurableListener {
 		this.weaknessMult = weaknessMult;
 	}
 
-	@EventHandler(priority = EventPriority.HIGHEST, ignoreCancelled = true)
+	@EventHandler(priority = EventPriority.HIGHEST)
 	public void onAttack(PlayerDamageEntityEvent e) {
 		if(!enabled)
 			return;

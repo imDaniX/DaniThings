@@ -89,7 +89,7 @@ public class TeleporterModifier extends Modifier implements Scalable {
 			locations.put(UUID.fromString(s), Utils.locationFromString(locsCfg.getString(s)));
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onClick(PlayerInteractEvent e) {
 		if(!isEnabled() || !isRight(e.getAction())) return;
 		if(e.getHand() != EquipmentSlot.HAND) return;
@@ -207,7 +207,7 @@ public class TeleporterModifier extends Modifier implements Scalable {
 				oldTeleports.put(id, Utils.locationFromString(locsCfg.getString(id)));
 		}
 
-		@EventHandler
+		@EventHandler(ignoreCancelled = true)
 		public void onClick(PlayerInteractEvent e) {
 			if(!isEnabled() || !isRight(e.getAction())) return;
 			if(e.getHand() != EquipmentSlot.HAND) return;

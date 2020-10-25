@@ -45,7 +45,7 @@ public class DragonEgg extends ConfigurableListener {
         eggFail = Utils.clr(cfg.getString("fail", "Fail"));
     }
 
-    @EventHandler
+    @EventHandler(ignoreCancelled = true)
     public void onDragonKill(EntityDeathEvent event) {
         World world = event.getEntity().getWorld();
         if(event.getEntityType() == EntityType.ENDER_DRAGON && dragonEgg > 0) {

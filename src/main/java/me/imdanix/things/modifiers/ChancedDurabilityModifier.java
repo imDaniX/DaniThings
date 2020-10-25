@@ -43,7 +43,7 @@ public class ChancedDurabilityModifier extends Modifier implements Scalable {
 		this.replacedModifier=this.modifier.replace("{chance}", "%");
 	}
 
-	@EventHandler
+	@EventHandler(ignoreCancelled = true)
 	public void onItemDamage(PlayerItemDamageEvent e) {
 		ItemStack item=e.getItem();
 /*

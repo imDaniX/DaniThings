@@ -61,7 +61,7 @@ public class SignLiftModifier extends Modifier {
 		this.messages=Utils.getMessages(cfg.getConfigurationSection("messages"));
 	}
 	
-	@EventHandler(priority = EventPriority.HIGH)
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGH)
 	public void liftCreation(PlayerInteractEvent e) {
 		if(e.getAction()!=Action.RIGHT_CLICK_BLOCK)
 			return;
@@ -118,7 +118,7 @@ public class SignLiftModifier extends Modifier {
 		e.setCancelled(true);
 	}
 	
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	public void liftUsing(PlayerInteractEvent e) {
 		if(e.getAction()!=Action.RIGHT_CLICK_BLOCK)
 			return;
@@ -146,7 +146,7 @@ public class SignLiftModifier extends Modifier {
 		}
 	}
 	
-	@EventHandler(priority = EventPriority.HIGHEST)
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	public void liftBreaking(BlockBreakEvent e) {
 		Block bl=e.getBlock();
 		if(isSign(bl)) {
