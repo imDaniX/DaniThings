@@ -22,6 +22,7 @@ import me.imdanix.things.configuration.SimpleConfiguration;
 import me.imdanix.things.hardmode.AfkFishing;
 import me.imdanix.things.hardmode.HardElytras;
 import me.imdanix.things.listener.Bastard;
+import me.imdanix.things.listener.BetterTNT;
 import me.imdanix.things.listener.DragonEgg;
 import me.imdanix.things.listener.Things;
 import me.imdanix.things.modifiers.ChancedDurabilityModifier;
@@ -66,6 +67,7 @@ public final class DaniThings extends JavaPlugin {
 		new AfkFishing();
 		new HardElytras();
 
+		new BetterTNT();
 		new SavingModifier();
 		new SpawnerPickModifier();
 		new ChancedDurabilityModifier();

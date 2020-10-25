@@ -56,6 +56,33 @@ things:
     chance: 0.1
     fail: '&8 > &fЯйцо дракона не выпало..'
     success: '&8 > &fВыпало яйцо дракона!'
+  better-explosion:
+    default:
+      # Enable modification in this world?
+      enable: false
+      # Allow blocks(beds, anchors etc.) to explode?
+      allow-blocks: true
+      # Destroy blocks?
+      destroy: true
+      # Modify explosion radius
+      destroy-modifier: 1
+      # Maximal destroy height
+      destroy-height: 64
+      # Allow chain of tnts even if it can't explode other blocks
+      allow-chain: true
+      # Damage entities?
+      damage: true
+      # Modify amount of damage
+      damage-modifier: 1
+    world:
+      enable: false
+      destroy-modifier: 1.5
+      destroy-height: 30
+      damage-modifier: 0.8
+    world_nether:
+      enable: true
+      allow-blocks: false
+      destroy-height: 40
 
 hardmode:
   elytras:
