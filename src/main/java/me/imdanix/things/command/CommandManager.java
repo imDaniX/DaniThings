@@ -45,8 +45,9 @@ public class CommandManager implements CommandExecutor {
 	@Override
 	public boolean onCommand(CommandSender s, org.bukkit.command.Command cmd, String label, String[] args) {
 		Command sCmd = Command.commands.get(cmd.getName());
-		if(sCmd != null)
+		if(sCmd != null) {
 			sCmd.execCommand(s, args);
+		}
 		return true;
 	}
 }
