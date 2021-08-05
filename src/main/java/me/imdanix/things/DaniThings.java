@@ -82,9 +82,9 @@ public final class DaniThings extends JavaPlugin {
 		config.loadConfigurables();
 
 		BlockPopulator populator = new EndPopulator();
-		if(config.getYml().getBoolean("things.end_corals"))
-			for(World world : Bukkit.getWorlds())
-				if(world.getEnvironment() == World.Environment.THE_END)
+		if (config.getYml().getBoolean("things.end_corals"))
+			for (World world : Bukkit.getWorlds())
+				if (world.getEnvironment() == World.Environment.THE_END)
 					world.getPopulators().add(populator);
 	}
 }
