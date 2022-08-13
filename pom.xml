@@ -55,8 +55,8 @@
 
     <repositories>
         <repository>
-            <id>ess-repo</id>
-            <url>https://ci.ender.zone/plugin/repository/everything/</url>
+            <id>essx</id>
+            <url>https://repo.essentialsx.net/releases/</url>
         </repository>
         <repository>
             <id>papermc</id>
