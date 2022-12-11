@@ -30,24 +30,24 @@ import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
 public class CommandManager implements CommandExecutor {
-	public CommandManager() {
-		new GetuuidCommand();
-		new HpeditCommand();
-		new ModifierCommand();
-		new SetloreCommand();
-		new StatsCommand();
-		new BastardCommand();
-		new SilentkickCommand();
-		new CrashCommand();
-		new DanithingsCommand();
-	}
+    public CommandManager() {
+        new GetuuidCommand();
+        new HpeditCommand();
+        new ModifierCommand();
+        new SetloreCommand();
+        new StatsCommand();
+        new BastardCommand();
+        new SilentkickCommand();
+        new CrashCommand();
+        new DanithingsCommand();
+    }
 
-	@Override
-	public boolean onCommand(CommandSender s, org.bukkit.command.Command cmd, String label, String[] args) {
-		Command sCmd = Command.commands.get(cmd.getName());
-		if(sCmd != null) {
-			sCmd.execCommand(s, args);
-		}
-		return true;
-	}
+    @Override
+    public boolean onCommand(CommandSender s, org.bukkit.command.Command cmd, String label, String[] args) {
+        Command sCmd = Command.commands.get(cmd.getName());
+        if (sCmd != null) {
+            sCmd.execCommand(s, args);
+        }
+        return true;
+    }
 }

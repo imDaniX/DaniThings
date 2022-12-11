@@ -30,41 +30,41 @@ import java.util.function.BiConsumer;
 import java.util.function.BiPredicate;
 
 public class EssentialsHook extends PluginHook {
-	private final BiConsumer<Player, Location> teleporter;
-	private final BiPredicate<Player, Double> cashier;
-	private Trade trade;
+    private final BiConsumer<Player, Location> teleporter;
+    private final BiPredicate<Player, Double> cashier;
+    private Trade trade;
 
-	public EssentialsHook() {
-		super("Essentials");
-		if(isEnabled()) {
-			Essentials ess = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
-			trade = new Trade((BigDecimal)null, ess);
-			teleporter = (p, l) -> {
-				try{
-					ess.getUser(p).getTeleport().teleport(l, trade, PlayerTeleportEvent.TeleportCause.PLUGIN);
-				} catch (Exception e) {
-					p.teleport(l);
-				}
-			};
-			cashier = (p, m) -> {
-				User user = ess.getUser(p);
-				BigDecimal money = BigDecimal.valueOf(m);
-				if(!user.canAfford(money)) return false;
-				user.takeMoney(money);
-				return true;
-			};
+    public EssentialsHook() {
+        super("Essentials");
+        if (isEnabled()) {
+            Essentials ess = (Essentials) Bukkit.getPluginManager().getPlugin("Essentials");
+            trade = new Trade((BigDecimal) null, ess);
+            teleporter = (p, l) -> {
+                try {
+                    ess.getUser(p).getTeleport().teleport(l, trade, PlayerTeleportEvent.TeleportCause.PLUGIN);
+                } catch (Exception e) {
+                    p.teleport(l);
+                }
+            };
+            cashier = (p, m) -> {
+                User user = ess.getUser(p);
+                BigDecimal money = BigDecimal.valueOf(m);
+                if (!user.canAfford(money)) return false;
+                user.takeMoney(money);
+                return true;
+            };
 
-		} else {
-			teleporter = Player::teleport;
-			cashier = (p,m) -> true;
-		}
-	}
+        } else {
+            teleporter = Player::teleport;
+            cashier = (p, m) -> true;
+        }
+    }
 
-	public void teleport(Player player, Location location) {
-		teleporter.accept(player, location);
-	}
+    public void teleport(Player player, Location location) {
+        teleporter.accept(player, location);
+    }
 
-	public boolean takeMoney(Player player, double money) {
-		return cashier.test(player, money);
-	}
+    public boolean takeMoney(Player player, double money) {
+        return cashier.test(player, money);
+    }
 }

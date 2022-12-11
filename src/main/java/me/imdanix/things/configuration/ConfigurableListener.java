@@ -22,8 +22,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.event.Listener;
 
 public abstract class ConfigurableListener implements Configurable, Listener {
-	public ConfigurableListener(String id) {
-		Bukkit.getPluginManager().registerEvents(this, DaniThings.PLUGIN);
-		DaniThings.config.register(id, this);
-	}
+    public ConfigurableListener(String id) {
+        Bukkit.getPluginManager().registerEvents(this, DaniThings.PLUGIN);
+        DaniThings.config.register(id, this);
+    }
 }

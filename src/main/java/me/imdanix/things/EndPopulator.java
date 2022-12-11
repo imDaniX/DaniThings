@@ -27,14 +27,19 @@ import java.util.Random;
 public class EndPopulator extends BlockPopulator {
     @Override
     public void populate(World world, Random random, Chunk source) {
-        for(int x = 0; x <= 15; x++) for(int z = 0; z <= 15; z++) if(random.nextDouble() <= 0.1) {
-            for(int y = world.getMaxHeight()-1; y > 1; y--) {
-                switch(source.getBlock(x, y, z).getType()) {
-                    case AIR: continue;
-                    case END_STONE: source.getBlock(x, y+1, z).setType(Material.DEAD_BRAIN_CORAL);
-                    default: y = 0;
+        for (int x = 0; x <= 15; x++)
+            for (int z = 0; z <= 15; z++)
+                if (random.nextDouble() <= 0.1) {
+                    for (int y = world.getMaxHeight() - 1; y > 1; y--) {
+                        switch (source.getBlock(x, y, z).getType()) {
+                            case AIR:
+                                continue;
+                            case END_STONE:
+                                source.getBlock(x, y + 1, z).setType(Material.DEAD_BRAIN_CORAL);
+                            default:
+                                y = 0;
+                        }
+                    }
                 }
-            }
-        }
     }
 }

@@ -45,7 +45,7 @@ public class DoubleJumpModifier extends Modifier {
     private static final PotionEffect SPEED = new PotionEffect(PotionEffectType.SPEED, 40, 2);
     private static final PotionEffect JUMP = new PotionEffect(PotionEffectType.JUMP, 60, 3, true);
     private static final Vector Y_VECTOR = new Vector(0, 0.8, 0);
-    private Set<UUID> wearing;
+    private final Set<UUID> wearing;
     private String modifier;
 
     public DoubleJumpModifier() {
@@ -53,11 +53,11 @@ public class DoubleJumpModifier extends Modifier {
         wearing = new HashSet<>();
         Bukkit.getScheduler().scheduleSyncRepeatingTask(DaniThings.PLUGIN, () -> {
             Iterator<UUID> iter = wearing.iterator();
-            while(iter.hasNext()) {
+            while (iter.hasNext()) {
                 Player player = Bukkit.getPlayer(iter.next());
-                if(player == null) continue;
+                if (player == null) continue;
                 ItemStack boots;
-                if((boots = player.getInventory().getBoots()) == null || containsModifier(boots) < 0) {
+                if ((boots = player.getInventory().getBoots()) == null || containsModifier(boots) < 0) {
                     iter.remove();
                     continue;
                 }
@@ -68,8 +68,8 @@ public class DoubleJumpModifier extends Modifier {
 
     @EventHandler(ignoreCancelled = true)
     public void onWear(PlayerArmorChangeEvent event) {
-        if(event.getSlotType() != PlayerArmorChangeEvent.SlotType.FEET || event.getNewItem() == null) return;
-        if(containsModifier(event.getNewItem()) > -1)
+        if (event.getSlotType() != PlayerArmorChangeEvent.SlotType.FEET || event.getNewItem() == null) return;
+        if (containsModifier(event.getNewItem()) > -1)
             wearing.add(event.getPlayer().getUniqueId());
         else wearing.remove(event.getPlayer().getUniqueId());
     }
@@ -77,8 +77,8 @@ public class DoubleJumpModifier extends Modifier {
     @EventHandler(ignoreCancelled = true)
     public void onShift(PlayerToggleSneakEvent event) {
         Player player = event.getPlayer();
-        if(!event.isSneaking() || !isEnabled() || !wearing.contains(player.getUniqueId())) return;
-        if(!player.getLocation().subtract(0, 0.1, 0).getBlock().getType().isSolid() && checkDelay(player)) {
+        if (!event.isSneaking() || !isEnabled() || !wearing.contains(player.getUniqueId())) return;
+        if (!player.getLocation().subtract(0, 0.1, 0).getBlock().getType().isSolid() && checkDelay(player)) {
             player.setVelocity(player.getVelocity().add(Y_VECTOR));
             player.addPotionEffect(SPEED);
             player.getWorld().spawnParticle(Particle.CLOUD, player.getLocation(), 10, 0.5, 0.1, 0.5, 0.1);
@@ -86,8 +86,8 @@ public class DoubleJumpModifier extends Modifier {
     }
 
     private boolean checkDelay(Player player) {
-        if(player.hasMetadata("dt-jump-delay")) {
-            if(System.currentTimeMillis() - player.getMetadata("dt-jump-delay").get(0).asLong() <= 2000)
+        if (player.hasMetadata("dt-jump-delay")) {
+            if (System.currentTimeMillis() - player.getMetadata("dt-jump-delay").get(0).asLong() <= 2000)
                 return false;
         }
         player.setMetadata("dt-jump-delay", new FixedMetadataValue(DaniThings.PLUGIN, System.currentTimeMillis()));
@@ -101,13 +101,13 @@ public class DoubleJumpModifier extends Modifier {
 
     @Override
     public int containsModifier(ItemStack is) {
-        if(is == null)
+        if (is == null)
             return -1;
         ItemMeta im = is.getItemMeta();
-        if(im == null || !im.hasLore())
+        if (im == null || !im.hasLore())
             return -1;
-        for(String line : im.getLore())
-            if(line.equals(modifier))
+        for (String line : im.getLore())
+            if (line.equals(modifier))
                 return 0;
         return -1;
     }
@@ -116,7 +116,7 @@ public class DoubleJumpModifier extends Modifier {
     public void setupItem(ItemStack is) {
         ItemMeta im = is.getItemMeta();
         List<String> lore = im.getLore();
-        if(lore== null)
+        if (lore == null)
             lore = new ArrayList<>();
         lore.add(modifier);
         im.setLore(lore);

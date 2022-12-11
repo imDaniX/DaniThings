@@ -48,9 +48,9 @@ public class DragonEgg extends ConfigurableListener {
     @EventHandler(ignoreCancelled = true)
     public void onDragonKill(EntityDeathEvent event) {
         World world = event.getEntity().getWorld();
-        if(event.getEntityType() == EntityType.ENDER_DRAGON && dragonEgg > 0) {
+        if (event.getEntityType() == EntityType.ENDER_DRAGON && dragonEgg > 0) {
             Bukkit.getScheduler().runTaskLater(DaniThings.PLUGIN, () -> {
-                if(Rnd.nextDouble() < dragonEgg) {
+                if (Rnd.nextDouble() < dragonEgg) {
                     world.getBlockAt(0, 100, 0).setType(Material.DRAGON_EGG);
                     Bukkit.broadcastMessage(eggSuccess);
                 } else {

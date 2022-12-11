@@ -18,8 +18,8 @@
 package me.imdanix.things.hooks;
 
 public interface Hooks {
-	EssentialsHook ESS_HOOK = new EssentialsHook();
-	ProtocolLibHook PL_HOOK = new ProtocolLibHook();
-	PlaceholderAPIHook PAPI_HOOK = new PlaceholderAPIHook();
-	WorldGuardHook WG_HOOK = new WorldGuardHook();
+    EssentialsHook ESS_HOOK = new EssentialsHook();
+    ProtocolLibHook PL_HOOK = new ProtocolLibHook();
+    PlaceholderAPIHook PAPI_HOOK = new PlaceholderAPIHook();
+    WorldGuardHook WG_HOOK = new WorldGuardHook();
 }

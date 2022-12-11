@@ -34,58 +34,58 @@ import static me.imdanix.things.utils.Utils.clr;
 
 public class VampireModifier extends Modifier {
 
-	private String modifier;
-	private double chance, minDamage, heal;
+    private String modifier;
+    private double chance, minDamage, heal;
 
-	public VampireModifier() {
-		super("vampire");
-	}
+    public VampireModifier() {
+        super("vampire");
+    }
 
-	@Override
-	public void loadModifier(ConfigurationSection cfg) {
-		this.modifier = clr(cfg.getString("modifier"));
-		this.chance = cfg.getDouble("chance");
-		this.minDamage = cfg.getDouble("min_damage");
-		this.heal = cfg.getDouble("heal");
-	}
+    @Override
+    public void loadModifier(ConfigurationSection cfg) {
+        this.modifier = clr(cfg.getString("modifier"));
+        this.chance = cfg.getDouble("chance");
+        this.minDamage = cfg.getDouble("min_damage");
+        this.heal = cfg.getDouble("heal");
+    }
 
-	@EventHandler(ignoreCancelled = true)
-	public void onAttack(PlayerDamageEntityEvent e) {
-		if(!isEnabled())
-			return;
-		Player p=e.getPlayer();
-		if(UNDEAD.contains(e.getDamaged().getType()))
-			return;
-		if(containsModifier(p.getInventory().getItemInMainHand()) > -1 && Rnd.nextDouble()<chance&&e.getDamage()>=minDamage) {
-			double health=p.getHealth()+e.getDamage()*heal;
-			if(health>p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue())
-				p.setHealth(p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
-			else
-				p.setHealth(health);
-		}
-	}
+    @EventHandler(ignoreCancelled = true)
+    public void onAttack(PlayerDamageEntityEvent e) {
+        if (!isEnabled())
+            return;
+        Player p = e.getPlayer();
+        if (UNDEAD.contains(e.getDamaged().getType()))
+            return;
+        if (containsModifier(p.getInventory().getItemInMainHand()) > -1 && Rnd.nextDouble() < chance && e.getDamage() >= minDamage) {
+            double health = p.getHealth() + e.getDamage() * heal;
+            if (health > p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue())
+                p.setHealth(p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
+            else
+                p.setHealth(health);
+        }
+    }
 
-	@Override
-	public int containsModifier(ItemStack item) {
-		if(item==null)
-			return -1;
-		ItemMeta meta=item.getItemMeta();
-		if(meta==null||!meta.hasLore())
-			return -1;
-		for(String line:meta.getLore())
-			if(line.equals(modifier))
-				return 0;
-		return -1;
-	}
+    @Override
+    public int containsModifier(ItemStack item) {
+        if (item == null)
+            return -1;
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null || !meta.hasLore())
+            return -1;
+        for (String line : meta.getLore())
+            if (line.equals(modifier))
+                return 0;
+        return -1;
+    }
 
-	@Override
-	public void setupItem(ItemStack item) {
-		ItemMeta meta=item.getItemMeta();
-		List<String> lore=meta.getLore();
-		if(lore==null)
-			lore=new ArrayList<>();
-		lore.add(modifier);
-		meta.setLore(lore);
-		item.setItemMeta(meta);
-	}
+    @Override
+    public void setupItem(ItemStack item) {
+        ItemMeta meta = item.getItemMeta();
+        List<String> lore = meta.getLore();
+        if (lore == null)
+            lore = new ArrayList<>();
+        lore.add(modifier);
+        meta.setLore(lore);
+        item.setItemMeta(meta);
+    }
 }

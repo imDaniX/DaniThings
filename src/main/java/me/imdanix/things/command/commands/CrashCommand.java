@@ -34,21 +34,21 @@ public class CrashCommand extends Command {
 
     @Override
     public void execCommand(CommandSender s, String[] args) {
-        if(!s.hasPermission("danithings.command.crash")) {
+        if (!s.hasPermission("danithings.command.crash")) {
             failed(s, FailInfo.NO_PERMISSION);
             return;
         }
-        if(args.length < 1) {
+        if (args.length < 1) {
             failed(s, FailInfo.WRONG_ARG);
             return;
         }
         Player player = null;
-        for(Player pl : Bukkit.getOnlinePlayers()) {
-            if(pl.getName().equalsIgnoreCase(args[0])) {
+        for (Player pl : Bukkit.getOnlinePlayers()) {
+            if (pl.getName().equalsIgnoreCase(args[0])) {
                 player = pl;
             }
         }
-        if(player == null) {
+        if (player == null) {
             failed(s, FailInfo.OFFLINE_PLAYER);
             return;
         }

@@ -33,55 +33,55 @@ import java.util.Map;
 import static me.imdanix.things.utils.Utils.clr;
 
 public class SpawnerSetting {
-	private static Map<EntityType, SpawnerSetting> settings;
-	private final EntityType type;
-	private final boolean failing;
-	private final String lore;
+    private static Map<EntityType, SpawnerSetting> settings;
+    private final EntityType type;
+    private final boolean failing;
+    private final String lore;
 
-	public SpawnerSetting(EntityType type, String lore, boolean failing) {
-		this.type=type;
-		this.lore=lore;
-		this.failing=failing;
-	}
+    public SpawnerSetting(EntityType type, String lore, boolean failing) {
+        this.type = type;
+        this.lore = lore;
+        this.failing = failing;
+    }
 
-	public EntityType getType() {
-		return type;
-	}
+    public EntityType getType() {
+        return type;
+    }
 
-	public String getLore() {
-		return lore;
-	}
+    public String getLore() {
+        return lore;
+    }
 
-	public ItemStack generateItem() {
-		ItemStack is=new ItemStack(failing ? Material.COBBLESTONE : Material.SPAWNER);
-		ItemMeta im=is.getItemMeta();
-		im.setLore(Collections.singletonList(lore));
-		is.setItemMeta(im);
-		return is;
-	}
+    public ItemStack generateItem() {
+        ItemStack is = new ItemStack(failing ? Material.COBBLESTONE : Material.SPAWNER);
+        ItemMeta im = is.getItemMeta();
+        im.setLore(Collections.singletonList(lore));
+        is.setItemMeta(im);
+        return is;
+    }
 
-	public static void setSpawner(Block block, List<String> lore) {
-		for(SpawnerSetting setting : settings.values()) {
-			if(lore.contains(setting.getLore())) {
-				CreatureSpawner sp = (CreatureSpawner) block.getState();
-				sp.setSpawnedType(setting.getType());
-				sp.update();
-			}
-		}
-	}
+    public static void setSpawner(Block block, List<String> lore) {
+        for (SpawnerSetting setting : settings.values()) {
+            if (lore.contains(setting.getLore())) {
+                CreatureSpawner sp = (CreatureSpawner) block.getState();
+                sp.setSpawnedType(setting.getType());
+                sp.update();
+            }
+        }
+    }
 
-	public static ItemStack generateItem(EntityType type) {
-		SpawnerSetting setting=settings.get(type);
-		return setting==null?null:setting.generateItem();
-	}
+    public static ItemStack generateItem(EntityType type) {
+        SpawnerSetting setting = settings.get(type);
+        return setting == null ? null : setting.generateItem();
+    }
 
-	public static void generateSettings(ConfigurationSection cfg) {
-		settings=new HashMap<>();
-		for(String mob:cfg.getKeys(false)) {
-			EntityType type=EntityType.valueOf(mob.toUpperCase());
-			String lore=clr(cfg.getString(mob+".lore"));
-			boolean enabled=cfg.contains(mob+".failing");
-			settings.put(type, new SpawnerSetting(type, lore, enabled));
-		}
-	}
+    public static void generateSettings(ConfigurationSection cfg) {
+        settings = new HashMap<>();
+        for (String mob : cfg.getKeys(false)) {
+            EntityType type = EntityType.valueOf(mob.toUpperCase());
+            String lore = clr(cfg.getString(mob + ".lore"));
+            boolean enabled = cfg.contains(mob + ".failing");
+            settings.put(type, new SpawnerSetting(type, lore, enabled));
+        }
+    }
 }

@@ -20,15 +20,15 @@ package me.imdanix.things.hooks;
 import org.bukkit.Bukkit;
 
 public abstract class PluginHook {
-	private boolean enabled;
+    private final boolean enabled;
 
-	public PluginHook(String plugin) {
-		this.enabled = Bukkit.getPluginManager().isPluginEnabled(plugin);
-	}
+    public PluginHook(String plugin) {
+        this.enabled = Bukkit.getPluginManager().isPluginEnabled(plugin);
+    }
 
-	// TODO: onPluginDisable
+    // TODO: onPluginDisable
 
-	public boolean isEnabled() {
-		return enabled;
-	}
+    public boolean isEnabled() {
+        return enabled;
+    }
 }

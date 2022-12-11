@@ -41,50 +41,50 @@ import org.bukkit.generator.BlockPopulator;
 import org.bukkit.plugin.java.JavaPlugin;
 
 public final class DaniThings extends JavaPlugin {
-	public static JavaPlugin PLUGIN;
-	public static SimpleConfiguration config;
+    public static JavaPlugin PLUGIN;
+    public static SimpleConfiguration config;
 
-	@Override
-	public void onEnable() {
-		DaniThings.PLUGIN = this;
-		config = new SimpleConfiguration("config");
+    @Override
+    public void onEnable() {
+        DaniThings.PLUGIN = this;
+        config = new SimpleConfiguration("config");
 
-		CommandManager cmd = new CommandManager();
-		getCommand("danithings").setExecutor(cmd);
-		getCommand("hpedit").setExecutor(cmd);
-		getCommand("modifier").setExecutor(cmd);
-		getCommand("setlore").setExecutor(cmd);
-		getCommand("getuuid").setExecutor(cmd);
-		getCommand("stats").setExecutor(cmd);
-		getCommand("bastard").setExecutor(cmd);
-		getCommand("silentkick").setExecutor(cmd);
-		getCommand("crash").setExecutor(cmd);
+        CommandManager cmd = new CommandManager();
+        getCommand("danithings").setExecutor(cmd);
+        getCommand("hpedit").setExecutor(cmd);
+        getCommand("modifier").setExecutor(cmd);
+        getCommand("setlore").setExecutor(cmd);
+        getCommand("getuuid").setExecutor(cmd);
+        getCommand("stats").setExecutor(cmd);
+        getCommand("bastard").setExecutor(cmd);
+        getCommand("silentkick").setExecutor(cmd);
+        getCommand("crash").setExecutor(cmd);
 
-		new Bastard();
-		new Things();
-		new DragonEgg();
+        new Bastard();
+        new Things();
+        new DragonEgg();
 
-		new AfkFishing();
-		new HardElytras();
+        new AfkFishing();
+        new HardElytras();
 
-		new BetterTNT();
-		new SavingModifier();
-		new SpawnerPickModifier();
-		new ChancedDurabilityModifier();
-		new ExpWithdrawModifier();
-		new SignLiftModifier();
-		new ThorModifier();
-		new VampireModifier();
-		new HotTouchModifier();
-		new NoFallModifier();
-		new TeleporterModifier();
+        new BetterTNT();
+        new SavingModifier();
+        new SpawnerPickModifier();
+        new ChancedDurabilityModifier();
+        new ExpWithdrawModifier();
+        new SignLiftModifier();
+        new ThorModifier();
+        new VampireModifier();
+        new HotTouchModifier();
+        new NoFallModifier();
+        new TeleporterModifier();
 
-		config.loadConfigurables();
+        config.loadConfigurables();
 
-		BlockPopulator populator = new EndPopulator();
-		if (config.getYml().getBoolean("things.end_corals"))
-			for (World world : Bukkit.getWorlds())
-				if (world.getEnvironment() == World.Environment.THE_END)
-					world.getPopulators().add(populator);
-	}
+        BlockPopulator populator = new EndPopulator();
+        if (config.getYml().getBoolean("things.end_corals"))
+            for (World world : Bukkit.getWorlds())
+                if (world.getEnvironment() == World.Environment.THE_END)
+                    world.getPopulators().add(populator);
+    }
 }

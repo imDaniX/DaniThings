@@ -29,22 +29,23 @@ import org.bukkit.Location;
 import org.bukkit.entity.Player;
 
 public class WorldGuardHook extends PluginHook {
-	private WorldGuardPlugin wg;
-	
-	public WorldGuardHook() {
-		super("WorldGuard");
-		if(isEnabled())
-			wg = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard");
-	}
-	
-	public boolean canBuild(Player p, Location loc) {
-		if(!isEnabled())
-			return true;
-		LocalPlayer player = WorldGuardPlugin.inst().wrapPlayer(p);
-		if(wg==null|| WorldGuard.getInstance().getPlatform().getSessionManager().hasBypass(player, player.getWorld())) return true;
-		RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
-		RegionQuery query = container.createQuery();
+    private WorldGuardPlugin wg;
 
-		return query.testState(BukkitAdapter.adapt(loc), player, Flags.BUILD);
-	}
+    public WorldGuardHook() {
+        super("WorldGuard");
+        if (isEnabled())
+            wg = (WorldGuardPlugin) Bukkit.getPluginManager().getPlugin("WorldGuard");
+    }
+
+    public boolean canBuild(Player p, Location loc) {
+        if (!isEnabled())
+            return true;
+        LocalPlayer player = WorldGuardPlugin.inst().wrapPlayer(p);
+        if (wg == null || WorldGuard.getInstance().getPlatform().getSessionManager().hasBypass(player, player.getWorld()))
+            return true;
+        RegionContainer container = WorldGuard.getInstance().getPlatform().getRegionContainer();
+        RegionQuery query = container.createQuery();
+
+        return query.testState(BukkitAdapter.adapt(loc), player, Flags.BUILD);
+    }
 }

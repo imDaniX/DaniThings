@@ -20,11 +20,11 @@ package me.imdanix.things.configuration;
 import org.bukkit.configuration.ConfigurationSection;
 
 public interface Configurable {
-	// Preload before init, also used for reload
-	void load(ConfigurationSection cfg);
+    // Preload before init, also used for reload
+    void load(ConfigurationSection cfg);
 
-	static ConfigurationSection section(ConfigurationSection cfg, String path) {
-		return cfg.isConfigurationSection(path) ?
-			   cfg.getConfigurationSection(path) : cfg.createSection(path);
-	}
+    static ConfigurationSection section(ConfigurationSection cfg, String path) {
+        return cfg.isConfigurationSection(path) ?
+                cfg.getConfigurationSection(path) : cfg.createSection(path);
+    }
 }
