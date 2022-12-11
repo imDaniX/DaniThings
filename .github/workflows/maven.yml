@@ -1,20 +1,26 @@
 name: Java CI
 
-on: [push]
+on:
+  push:
+    branches:
+      - master
 
 jobs:
   build:
 
+    if: "! contains(toJSON(github.event.commits.*.message), '[SKIP-CI]')"
+
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v2
-      - name: Set up JDK 1.8
-        uses: actions/setup-java@v1
+      - uses: actions/checkout@main
+      - name: Set up JDK 17
+        uses: actions/setup-java@main
         with:
-          java-version: 1.8
+          distribution: 'temurin'
+          java-version: '17'
 
-      - uses: actions/cache@v1
+      - uses: actions/cache@main
         with:
           path: ~/.m2/repository
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
@@ -23,14 +29,7 @@ jobs:
 
       - name: Build with Maven
         run: mvn -B package --file pom.xml
-
-      - name: Copy artifacts
-        run: mkdir -p ./out/ && cp -t ./out/ /home/runner/work/DaniThings/DaniThings/target/DaniThings*.jar
-
-      - name: Copy config
-        run: mkdir -p ./out/ && cp -t ./out/ /home/runner/work/DaniThings/DaniThings/target/classes/config.yml
-
-      - uses: actions/upload-artifact@master
+      - uses: actions/upload-artifact@main
         with:
           name: DaniThings
-          path: out/
+          path: target/DaniThings.jar
