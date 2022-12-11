@@ -29,6 +29,7 @@ import org.bukkit.Particle;
 import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.Statistic;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.enchantments.Enchantment;
@@ -98,7 +99,7 @@ public class Things extends ConfigurableListener {
 		loc.getWorld().dropItemNaturally(loc, new ItemStack(Material.BOOKSHELF));
 	}
 
-	@EventHandler(ignoreCancelled = true)
+	@EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
 	public void onBlockBreak(BlockBreakEvent e) {
 	    Block bl = e.getBlock();
 	    if(ghostBlocks)
@@ -106,7 +107,7 @@ public class Things extends ConfigurableListener {
 
 		ItemStack is=e.getPlayer().getInventory().getItemInMainHand();
 		if(overEnchantStopper && Utils.checkEnchant(is, Enchantment.DIG_SPEED, 5)) {
-			if(Rnd.nextDouble() > 0.05) return;
+			if(Tag.SHULKER_BOXES.isTagged(bl.getType()) || Rnd.nextDouble() > 0.05) return;
 			e.setDropItems(false);
 			Location loc=e.getBlock().getLocation();
 			if(overEnchantSilverfish && Rnd.nextDouble() > 0.9) loc.getWorld().spawn(loc, Silverfish.class);
