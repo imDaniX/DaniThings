@@ -32,27 +32,27 @@ public class HpeditCommand extends Command {
         super("hpedit", "&a/hpedit <игрок> <здоровье>&7 - Установить &eигроку&7 максимальное &eздоровье&7.");
     }
 
-    public void execCommand(CommandSender s, String[] args) {
-        if (!s.hasPermission("danithings.command.hpedit")) {
-            failed(s, FailInfo.NO_PERMISSION);
+    public void execCommand(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("danithings.command.hpedit")) {
+            failed(sender, FailInfo.NO_PERMISSION);
             return;
         }
         if (args.length < 2) {
-            failed(s, FailInfo.WRONG_ARG);
+            failed(sender, FailInfo.WRONG_ARG);
             return;
         }
         double hp = getDouble(args[1], false);
         if (hp == 0) {
-            failed(s, FailInfo.WRONG_ARG);
+            failed(sender, FailInfo.WRONG_ARG);
             return;
         }
         for (Player pl : Bukkit.getOnlinePlayers()) {
             if (pl.getName().equalsIgnoreCase(args[0])) {
                 pl.getAttribute(Attribute.GENERIC_MAX_HEALTH).setBaseValue(hp);
-                s.sendMessage(clr("&bHpEdit> &fВы установили макс.уровень здоровья &e" + pl.getName() + "&a на &e" + hp));
+                sender.sendMessage(clr("&bHpEdit> &fВы установили макс.уровень здоровья &e" + pl.getName() + "&a на &e" + hp));
                 return;
             }
         }
-        failed(s, FailInfo.OFFLINE_PLAYER);
+        failed(sender, FailInfo.OFFLINE_PLAYER);
     }
 }

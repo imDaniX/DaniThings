@@ -57,7 +57,7 @@ public class DoubleJumpModifier extends Modifier {
                 Player player = Bukkit.getPlayer(iter.next());
                 if (player == null) continue;
                 ItemStack boots;
-                if ((boots = player.getInventory().getBoots()) == null || containsModifier(boots) < 0) {
+                if ((boots = player.getInventory().getBoots()) == null || modifierLine(boots) < 0) {
                     iter.remove();
                     continue;
                 }
@@ -69,7 +69,7 @@ public class DoubleJumpModifier extends Modifier {
     @EventHandler(ignoreCancelled = true)
     public void onWear(PlayerArmorChangeEvent event) {
         if (event.getSlotType() != PlayerArmorChangeEvent.SlotType.FEET || event.getNewItem() == null) return;
-        if (containsModifier(event.getNewItem()) > -1)
+        if (modifierLine(event.getNewItem()) > -1)
             wearing.add(event.getPlayer().getUniqueId());
         else wearing.remove(event.getPlayer().getUniqueId());
     }
@@ -100,26 +100,26 @@ public class DoubleJumpModifier extends Modifier {
     }
 
     @Override
-    public int containsModifier(ItemStack is) {
-        if (is == null)
+    public int modifierLine(ItemStack item) {
+        if (item == null)
             return -1;
-        ItemMeta im = is.getItemMeta();
-        if (im == null || !im.hasLore())
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null || !meta.hasLore())
             return -1;
-        for (String line : im.getLore())
+        for (String line : meta.getLore())
             if (line.equals(modifier))
                 return 0;
         return -1;
     }
 
     @Override
-    public void setupItem(ItemStack is) {
-        ItemMeta im = is.getItemMeta();
+    public void setupItem(ItemStack item) {
+        ItemMeta im = item.getItemMeta();
         List<String> lore = im.getLore();
         if (lore == null)
             lore = new ArrayList<>();
         lore.add(modifier);
         im.setLore(lore);
-        is.setItemMeta(im);
+        item.setItemMeta(im);
     }
 }

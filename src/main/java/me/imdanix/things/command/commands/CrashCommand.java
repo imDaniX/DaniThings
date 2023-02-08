@@ -33,13 +33,13 @@ public class CrashCommand extends Command {
     }
 
     @Override
-    public void execCommand(CommandSender s, String[] args) {
-        if (!s.hasPermission("danithings.command.crash")) {
-            failed(s, FailInfo.NO_PERMISSION);
+    public void execCommand(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("danithings.command.crash")) {
+            failed(sender, FailInfo.NO_PERMISSION);
             return;
         }
         if (args.length < 1) {
-            failed(s, FailInfo.WRONG_ARG);
+            failed(sender, FailInfo.WRONG_ARG);
             return;
         }
         Player player = null;
@@ -49,7 +49,7 @@ public class CrashCommand extends Command {
             }
         }
         if (player == null) {
-            failed(s, FailInfo.OFFLINE_PLAYER);
+            failed(sender, FailInfo.OFFLINE_PLAYER);
             return;
         }
 

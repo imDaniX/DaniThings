@@ -51,7 +51,7 @@ public class ChancedDurabilityModifier extends Modifier implements Scalable {
 			e.setDamage((int)(Math.random()*5));
 		}
 */
-        int line = containsModifier(item);
+        int line = modifierLine(item);
         if (line > -1) {
             double chance = getDouble(item.getItemMeta().getLore().get(line), true);
             if (chance == 0)
@@ -66,7 +66,7 @@ public class ChancedDurabilityModifier extends Modifier implements Scalable {
     }
 
     @Override
-    public int containsModifier(ItemStack item) {
+    public int modifierLine(ItemStack item) {
         if (item == null)
             return -1;
         ItemMeta meta = item.getItemMeta();
@@ -82,24 +82,24 @@ public class ChancedDurabilityModifier extends Modifier implements Scalable {
     }
 
     @Override
-    public void setupItem(ItemStack is) {
-        ItemMeta im = is.getItemMeta();
+    public void setupItem(ItemStack item) {
+        ItemMeta im = item.getItemMeta();
         List<String> lore = im.getLore();
         if (lore == null)
             lore = new ArrayList<>();
         lore.add(modifier.replace("{chance}", "100%"));
         im.setLore(lore);
-        is.setItemMeta(im);
+        item.setItemMeta(im);
     }
 
     @Override
-    public void setupItem(ItemStack is, double percent) {
-        ItemMeta im = is.getItemMeta();
+    public void setupItem(ItemStack item, double percent) {
+        ItemMeta im = item.getItemMeta();
         List<String> lore = im.getLore();
         if (lore == null)
             lore = new ArrayList<>();
         lore.add(modifier.replace("{chance}", percent + "%"));
         im.setLore(lore);
-        is.setItemMeta(im);
+        item.setItemMeta(im);
     }
 }

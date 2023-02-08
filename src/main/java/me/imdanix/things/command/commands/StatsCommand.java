@@ -43,29 +43,29 @@ public class StatsCommand extends ConfigurableCommand {
     }
 
     @Override
-    public void execCommand(CommandSender s, String[] args) {
-        if (!s.hasPermission("danithings.command.stats")) {
-            s.sendMessage(FailInfo.NO_PERMISSION.toString());
+    public void execCommand(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("danithings.command.stats")) {
+            sender.sendMessage(FailInfo.NO_PERMISSION.toString());
             return;
         }
         if (args.length == 0) {
-            if (isConsole(s)) {
-                failed(s, FailInfo.NO_CONSOLE);
+            if (isConsole(sender)) {
+                failed(sender, FailInfo.NO_CONSOLE);
                 return;
             }
-            Player p = (Player) s;
-            stats.forEach(l -> s.sendMessage(Hooks.PAPI_HOOK.setPlaceholders(p, l)));
+            Player p = (Player) sender;
+            stats.forEach(l -> sender.sendMessage(Hooks.PAPI_HOOK.setPlaceholders(p, l)));
         } else {
-            if (!s.hasPermission("danithings.command.stats.other")) {
-                failed(s, FailInfo.NO_PERMISSION);
+            if (!sender.hasPermission("danithings.command.stats.other")) {
+                failed(sender, FailInfo.NO_PERMISSION);
                 return;
             }
             Player p = Bukkit.getPlayer(args[0]);
             if (p == null) {
-                failed(s, FailInfo.OFFLINE_PLAYER);
+                failed(sender, FailInfo.OFFLINE_PLAYER);
                 return;
             }
-            stats.forEach(l -> s.sendMessage(Hooks.PAPI_HOOK.setPlaceholders(p, l)));
+            stats.forEach(l -> sender.sendMessage(Hooks.PAPI_HOOK.setPlaceholders(p, l)));
         }
     }
 

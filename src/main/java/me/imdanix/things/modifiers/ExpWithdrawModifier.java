@@ -47,45 +47,44 @@ public class ExpWithdrawModifier extends Modifier {
 
     @EventHandler(ignoreCancelled = true)
     public void onPlayerInteract(PlayerInteractEvent e) {
-        if (!this.isEnabled())
-            return;
-        Player p = e.getPlayer();
-        if (p.getLevel() >= minLevel && containsModifier(e.getItem()) > -1) {
-            int xpOnLevel = (int) (p.getExp() * p.getExpToLevel());
-            if (xpOnLevel > 10) p.giveExp(-10);
-            else if (xpOnLevel == 10) p.setExp(0);
+        if (!isEnabled()) return;
+        Player player = e.getPlayer();
+        if (player.getLevel() >= minLevel && modifierLine(e.getItem()) > -1) {
+            int xpOnLevel = (int) (player.getExp() * player.getExpToLevel());
+            if (xpOnLevel > 10) player.giveExp(-10);
+            else if (xpOnLevel == 10) player.setExp(0);
             else {
                 int num = 10 - xpOnLevel;
-                p.setExp(0.0f);
-                p.setLevel(p.getLevel() - 1);
-                float newXp = ((float) (p.getExpToLevel() - num) / (float) p.getExpToLevel());
-                p.setExp(newXp);
+                player.setExp(0.0f);
+                player.setLevel(player.getLevel() - 1);
+                float newXp = ((float) (player.getExpToLevel() - num) / (float) player.getExpToLevel());
+                player.setExp(newXp);
             }
-            p.getWorld().spawnEntity(p.getLocation(), EntityType.THROWN_EXP_BOTTLE);
+            player.getWorld().spawnEntity(player.getLocation(), EntityType.THROWN_EXP_BOTTLE);
         }
     }
 
     @Override
-    public int containsModifier(ItemStack is) {
-        if (is == null)
+    public int modifierLine(ItemStack item) {
+        if (item == null)
             return -1;
-        ItemMeta im = is.getItemMeta();
-        if (im == null || !im.hasLore())
+        ItemMeta meta = item.getItemMeta();
+        if (meta == null || !meta.hasLore())
             return -1;
-        for (String line : im.getLore())
+        for (String line : meta.getLore())
             if (line.equals(modifier))
                 return 0;
         return -1;
     }
 
     @Override
-    public void setupItem(ItemStack is) {
-        ItemMeta im = is.getItemMeta();
+    public void setupItem(ItemStack item) {
+        ItemMeta im = item.getItemMeta();
         List<String> lore = im.getLore();
         if (lore == null)
             lore = new ArrayList<>();
         lore.add(modifier);
         im.setLore(lore);
-        is.setItemMeta(im);
+        item.setItemMeta(im);
     }
 }

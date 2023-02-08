@@ -105,11 +105,11 @@ public class Utils {
         }
     }
 
-    public static void removeOne(ItemStack is) {
-        if (is.getAmount() == 1) {
-            is.setType(Material.AIR);
+    public static void removeOne(ItemStack item) {
+        if (item.getAmount() == 1) {
+            item.setType(Material.AIR);
         } else {
-            is.setAmount(is.getAmount() - 1);
+            item.setAmount(item.getAmount() - 1);
         }
     }
 

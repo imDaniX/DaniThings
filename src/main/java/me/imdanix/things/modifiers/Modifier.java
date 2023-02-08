@@ -47,8 +47,8 @@ public abstract class Modifier extends ConfigurableListener {
     public abstract void loadModifier(ConfigurationSection cfg);
 
     // Does item contains skill?
-    public abstract int containsModifier(ItemStack is);
+    public abstract int modifierLine(ItemStack item);
 
     // Add modifier to the item
-    abstract public void setupItem(ItemStack is);
+    abstract public void setupItem(ItemStack item);
 }

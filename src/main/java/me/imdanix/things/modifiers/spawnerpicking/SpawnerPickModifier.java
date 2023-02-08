@@ -73,7 +73,7 @@ public class SpawnerPickModifier extends Modifier {
 
         ItemStack is = p.getInventory().getItemInMainHand();
 
-        if (bl.getType() == Material.SPAWNER && containsModifier(is) > -1) {
+        if (bl.getType() == Material.SPAWNER && modifierLine(is) > -1) {
             ItemMeta im = is.getItemMeta();
             int damage = 1;
             if (oneUse) {
@@ -97,8 +97,8 @@ public class SpawnerPickModifier extends Modifier {
     }
 
     @Override
-    public int containsModifier(ItemStack is) {
-        ItemMeta im = is.getItemMeta();
+    public int modifierLine(ItemStack item) {
+        ItemMeta im = item.getItemMeta();
         if (im == null || !im.hasLore())
             return -1;
         for (String line : im.getLore())
@@ -108,13 +108,13 @@ public class SpawnerPickModifier extends Modifier {
     }
 
     @Override
-    public void setupItem(ItemStack is) {
-        ItemMeta im = is.getItemMeta();
+    public void setupItem(ItemStack item) {
+        ItemMeta im = item.getItemMeta();
         List<String> lore = im.getLore();
         if (lore == null)
             lore = new ArrayList<>();
         lore.add(modifier);
         im.setLore(lore);
-        is.setItemMeta(im);
+        item.setItemMeta(im);
     }
 }

@@ -35,29 +35,29 @@ public class ModifierCommand extends Command {
     }
 
     @Override
-    public void execCommand(CommandSender s, String[] args) {
-        if (!s.hasPermission("danithings.command.modifier")) {
-            failed(s, FailInfo.NO_PERMISSION);
+    public void execCommand(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("danithings.command.modifier")) {
+            failed(sender, FailInfo.NO_PERMISSION);
             return;
         }
-        if (Utils.isConsole(s)) {
-            failed(s, FailInfo.NO_CONSOLE);
+        if (Utils.isConsole(sender)) {
+            failed(sender, FailInfo.NO_CONSOLE);
             return;
         }
         if (args.length == 0) {
-            s.sendMessage(getDescription());
-            s.sendMessage(clr("&aСписок модификаторов:&f ") + String.join(", ", Modifier.modifiers.keySet()));
+            sender.sendMessage(getDescription());
+            sender.sendMessage(clr("&aСписок модификаторов:&f ") + String.join(", ", Modifier.modifiers.keySet()));
             return;
         }
-        ItemStack is = ((Player) s).getInventory().getItemInMainHand();
+        ItemStack item = ((Player) sender).getInventory().getItemInMainHand();
         Modifier mod = Modifier.modifiers.get(args[0].toLowerCase());
         if (mod == null) {
-            failed(s, FailInfo.WRONG_ARG);
+            failed(sender, FailInfo.WRONG_ARG);
             return;
         }
-        if (args.length >= 2 && mod instanceof Scalable)
-            ((Scalable) mod).setupItem(is, getDouble(args[1], false));
+        if (args.length >= 2 && mod instanceof Scalable scalable)
+            scalable.setupItem(item, getDouble(args[1], false));
         else
-            mod.setupItem(is);
+            mod.setupItem(item);
     }
 }

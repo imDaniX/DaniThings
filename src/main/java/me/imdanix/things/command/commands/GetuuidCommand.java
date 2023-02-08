@@ -37,23 +37,23 @@ public class GetuuidCommand extends Command {
         super("getuuid", "&a/getuuid <игрок> &7- Получить UUID &eигрока&7.");
     }
 
-    public void execCommand(CommandSender s, String[] args) {
+    public void execCommand(CommandSender sender, String[] args) {
         if (args.length != 1) {
-            failed(s, FailInfo.WRONG_ARG);
+            failed(sender, FailInfo.WRONG_ARG);
             return;
         }
-        if (!s.hasPermission("danithings.command.getuuid")) {
-            failed(s, FailInfo.NO_PERMISSION);
+        if (!sender.hasPermission("danithings.command.getuuid")) {
+            failed(sender, FailInfo.NO_PERMISSION);
             return;
         }
         String id = getUUID(args[0]).toString();
-        if (isConsole(s))
-            s.sendMessage(id);
+        if (isConsole(sender))
+            sender.sendMessage(id);
         else {
-            s.sendMessage(clr("&bGetUUID> &fНажмите &eшифт+лкм&f по надписи ниже, чтобы ввести её в чат"));
+            sender.sendMessage(clr("&bGetUUID> &fНажмите &eшифт+лкм&f по надписи ниже, чтобы ввести её в чат"));
             BaseComponent text = new TextComponent(id);
             text.setInsertion(id);
-            s.spigot().sendMessage(text);
+            sender.spigot().sendMessage(text);
         }
     }
 

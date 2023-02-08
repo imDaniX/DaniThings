@@ -40,16 +40,16 @@ public class DanithingsCommand extends Command {
     }
 
     @Override
-    public void execCommand(CommandSender s, String[] args) {
+    public void execCommand(CommandSender sender, String[] args) {
         if (args.length == 0 || !args[0].equalsIgnoreCase("reload"))
-            info.forEach(s::sendMessage);
+            info.forEach(sender::sendMessage);
         else {
-            if (!s.hasPermission("danithings.command.reload")) {
-                failed(s, FailInfo.NO_PERMISSION);
+            if (!sender.hasPermission("danithings.command.reload")) {
+                failed(sender, FailInfo.NO_PERMISSION);
                 return;
             }
             DaniThings.config.reloadConfig();
-            s.sendMessage(clr("&bDaniThings>&f Плагин был &aуспешно&f перезагружен."));
+            sender.sendMessage(clr("&bDaniThings>&f Плагин был &aуспешно&f перезагружен."));
         }
     }
 }

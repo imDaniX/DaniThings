@@ -69,7 +69,7 @@ public class SavingModifier extends Modifier implements Scalable {
         Set<SavedItem> items = new HashSet<>();
         int slot = 0;
         for (ItemStack item : inv.getContents()) {
-            int line = containsModifier(item);
+            int line = modifierLine(item);
             if (line > -1 && (!percentUsage || getInteger(item.getItemMeta().getLore().get(line), true) < Rnd.nextInt(100))) {
                 items.add(new SavedItem(item, slot));
                 drops.remove(item);
@@ -91,10 +91,10 @@ public class SavingModifier extends Modifier implements Scalable {
     }
 
     @Override
-    public int containsModifier(ItemStack is) {
-        if (is == null)
+    public int modifierLine(ItemStack item) {
+        if (item == null)
             return -1;
-        ItemMeta im = is.getItemMeta();
+        ItemMeta im = item.getItemMeta();
         if (im == null || !im.hasLore())
             return -1;
         if (percentUsage) {
@@ -113,24 +113,24 @@ public class SavingModifier extends Modifier implements Scalable {
     }
 
     @Override
-    public void setupItem(ItemStack is) {
-        ItemMeta im = is.getItemMeta();
+    public void setupItem(ItemStack item) {
+        ItemMeta im = item.getItemMeta();
         List<String> lore = im.getLore();
         if (lore == null)
             lore = new ArrayList<>();
         lore.add(modifier.replace("{chance}", "100%"));
         im.setLore(lore);
-        is.setItemMeta(im);
+        item.setItemMeta(im);
     }
 
     @Override
-    public void setupItem(ItemStack is, double percent) {
-        ItemMeta im = is.getItemMeta();
+    public void setupItem(ItemStack item, double percent) {
+        ItemMeta im = item.getItemMeta();
         List<String> lore = im.getLore();
         if (lore == null)
             lore = new ArrayList<>();
         lore.add(modifier.replace("{chance}", percent + "%"));
         im.setLore(lore);
-        is.setItemMeta(im);
+        item.setItemMeta(im);
     }
 }

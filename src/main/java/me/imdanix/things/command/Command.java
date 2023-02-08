@@ -42,5 +42,5 @@ public abstract class Command {
         sender.sendMessage(description);
     }
 
-    public abstract void execCommand(CommandSender s, String[] args);
+    public abstract void execCommand(CommandSender sender, String[] args);
 }

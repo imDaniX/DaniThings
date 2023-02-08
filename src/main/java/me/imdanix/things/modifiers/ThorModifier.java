@@ -82,7 +82,7 @@ public class ThorModifier extends Modifier {
         Player damager = e.getPlayer();
         Entity ent = e.getDamaged();
         ItemStack item = damager.getInventory().getItemInMainHand();
-        if (containsModifier(item) > -1 && isDamageable(ent)) {
+        if (modifierLine(item) > -1 && isDamageable(ent)) {
             ((Damageable) ent).damage(dealDamage);
             boolean searching = true;
             for (Entity near : ent.getNearbyEntities(2.5, 2.5, 2.5)) {
@@ -148,15 +148,15 @@ public class ThorModifier extends Modifier {
         ((Damageable) ent).damage(Rnd.nextDouble(6));
     }
 
-    private boolean isDamageable(Entity ent) {
-        return (damageMonsters && ent instanceof Monster) || (damageAnimals && ent instanceof Animals) || (damagePlayers && ent instanceof Player) || (damageNPCs && ent instanceof NPC);
+    private boolean isDamageable(Entity entity) {
+        return (damageMonsters && entity instanceof Monster) || (damageAnimals && entity instanceof Animals) || (damagePlayers && entity instanceof Player) || (damageNPCs && entity instanceof NPC);
     }
 
     @Override
-    public int containsModifier(ItemStack is) {
-        if (is == null)
+    public int modifierLine(ItemStack item) {
+        if (item == null)
             return -1;
-        ItemMeta im = is.getItemMeta();
+        ItemMeta im = item.getItemMeta();
         if (im == null || !im.hasLore())
             return -1;
         for (String line : im.getLore())
@@ -166,13 +166,13 @@ public class ThorModifier extends Modifier {
     }
 
     @Override
-    public void setupItem(ItemStack is) {
-        ItemMeta im = is.getItemMeta();
+    public void setupItem(ItemStack item) {
+        ItemMeta im = item.getItemMeta();
         List<String> lore = im.getLore();
         if (lore == null)
             lore = new ArrayList<>();
         lore.add(modifierOn);
         im.setLore(lore);
-        is.setItemMeta(im);
+        item.setItemMeta(im);
     }
 }

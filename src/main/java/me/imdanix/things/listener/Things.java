@@ -100,16 +100,16 @@ public class Things extends ConfigurableListener {
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    public void onBlockBreak(BlockBreakEvent e) {
-        Block bl = e.getBlock();
+    public void onBlockBreak(BlockBreakEvent event) {
+        Block block = event.getBlock();
         if (ghostBlocks)
-            Bukkit.getScheduler().runTaskLater(DaniThings.PLUGIN, () -> e.getPlayer().sendBlockChange(bl.getLocation(), bl.getBlockData()), 3);
+            Bukkit.getScheduler().runTaskLater(DaniThings.PLUGIN, () -> event.getPlayer().sendBlockChange(block.getLocation(), block.getBlockData()), 3);
 
-        ItemStack is = e.getPlayer().getInventory().getItemInMainHand();
-        if (overEnchantStopper && Utils.checkEnchant(is, Enchantment.DIG_SPEED, 5)) {
-            if (Tag.SHULKER_BOXES.isTagged(bl.getType()) || Rnd.nextDouble() > 0.05) return;
-            e.setDropItems(false);
-            Location loc = e.getBlock().getLocation();
+        ItemStack item = event.getPlayer().getInventory().getItemInMainHand();
+        if (overEnchantStopper && Utils.checkEnchant(item, Enchantment.DIG_SPEED, 5)) {
+            if (Tag.SHULKER_BOXES.isTagged(block.getType()) || Rnd.nextDouble() > 0.05) return;
+            event.setDropItems(false);
+            Location loc = event.getBlock().getLocation();
             if (overEnchantSilverfish && Rnd.nextDouble() > 0.9) loc.getWorld().spawn(loc, Silverfish.class);
             loc.getWorld().playSound(loc, Sound.ENTITY_GHAST_DEATH, SoundCategory.BLOCKS, 0.2f, 1);
             loc.getWorld().spawnParticle(Particle.SMOKE_LARGE, loc, 6, 0.3, 0.3, 0.3, 0.04);
@@ -117,30 +117,30 @@ public class Things extends ConfigurableListener {
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onEntityTeleport(EntityTeleportEvent e) {
+    public void onEntityTeleport(EntityTeleportEvent event) {
         if (!teleportDupe)
             return;
-        Entity ent = e.getEntity();
+        Entity ent = event.getEntity();
         if (ent.getType() != EntityType.PLAYER && ent instanceof InventoryHolder &&
                 ent instanceof LivingEntity && ((LivingEntity) ent).getHealth() > 4)
-            e.setCancelled(true);
+            event.setCancelled(true);
     }
 
     @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
-    public void onEntityFight(EntityDamageByEntityEvent e) {
+    public void onEntityFight(EntityDamageByEntityEvent event) {
         if (!fireworkDamage)
             return;
-        if (e.getDamager() instanceof Firework) {
-            Entity ent = e.getEntity();
-            if (!(ent instanceof Monster) || !((LivingEntity) ent).isGliding())
-                e.setCancelled(true);
+        if (event.getDamager() instanceof Firework) {
+            Entity entity = event.getEntity();
+            if (!(entity instanceof Monster) || !((LivingEntity) entity).isGliding())
+                event.setCancelled(true);
         }
     }
 
     @EventHandler(ignoreCancelled = true)
-    public void onPrepareAnvil(PrepareAnvilEvent e) {
-        ItemStack item1 = e.getInventory().getItem(0);
-        ItemStack result = e.getResult();
+    public void onPrepareAnvil(PrepareAnvilEvent event) {
+        ItemStack item1 = event.getInventory().getItem(0);
+        ItemStack result = event.getResult();
         if (item1 == null || result == null) return;
 
         if (!colorRename && item1.getItemMeta().hasDisplayName()) {
@@ -152,7 +152,7 @@ public class Things extends ConfigurableListener {
             }
         }
 
-        ItemStack item2 = e.getInventory().getItem(1);
+        ItemStack item2 = event.getInventory().getItem(1);
         if (overEnchant && item2 != null && item2.getType() == Material.ENCHANTED_BOOK) {
             EnchantmentStorageMeta book = (EnchantmentStorageMeta) item2.getItemMeta();
             if (book.hasLore() && book.getLore().contains("§7Неразрушимость")) {

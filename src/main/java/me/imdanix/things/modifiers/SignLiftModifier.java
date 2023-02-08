@@ -21,6 +21,7 @@ import me.imdanix.things.hooks.Hooks;
 import me.imdanix.things.utils.Utils;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.Sign;
 import org.bukkit.configuration.ConfigurationSection;
@@ -38,7 +39,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-import static me.imdanix.things.utils.Utils.*;
+import static me.imdanix.things.utils.Utils.clr;
+import static me.imdanix.things.utils.Utils.removeOne;
 
 public class SignLiftModifier extends Modifier {
     private String modifier;
@@ -69,8 +71,8 @@ public class SignLiftModifier extends Modifier {
         if (e.getItem() == null)
             return;
         Player p = e.getPlayer();
-        ItemStack is = e.getItem();
-        if (containsModifier(is) < 0)
+        ItemStack item = e.getItem();
+        if (modifierLine(item) < 0)
             return;
 
         Block bl = e.getClickedBlock();
@@ -83,17 +85,17 @@ public class SignLiftModifier extends Modifier {
             return;
         }
 
-        ItemStack newIs = is.clone();
-        newIs.setAmount(1);
-        ItemMeta im = newIs.getItemMeta();
-        List<String> lore = im.getLore();
+        ItemStack resultItem = item.clone();
+        resultItem.setAmount(1);
+        ItemMeta meta = resultItem.getItemMeta();
+        List<String> lore = meta.getLore();
 
         if (lore.size() == 1) {
             p.sendMessage(messages.get("next_click"));
             lore.add(clr("&7Y = " + bl.getY()));
-            im.setLore(lore);
-            newIs.setItemMeta(im);
-            p.getInventory().addItem(newIs);
+            meta.setLore(lore);
+            resultItem.setItemMeta(meta);
+            p.getInventory().addItem(resultItem);
         } else {
             Sign sign1 = (Sign) bl.getState();
             int y = Integer.parseInt(lore.get(1).substring(6));
@@ -116,7 +118,7 @@ public class SignLiftModifier extends Modifier {
             sign2.update();
             p.sendMessage(messages.get("created"));
         }
-        removeOne(is);
+        removeOne(item);
         e.setCancelled(true);
     }
 
@@ -164,33 +166,33 @@ public class SignLiftModifier extends Modifier {
                 sign2.setLine(2, "");
                 sign1.update();
                 sign2.update();
-                Player p = e.getPlayer();
-                ItemStack is = new ItemStack(drop);
+                Player player = e.getPlayer();
+                ItemStack item = new ItemStack(drop);
                 List<String> lore = new ArrayList<>();
                 lore.add(modifier);
-                ItemMeta im = is.getItemMeta();
-                im.setLore(lore);
-                is.setItemMeta(im);
-                is.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
-                p.getInventory().addItem(is);
-                p.sendMessage(messages.get("deleted"));
+                ItemMeta meta = item.getItemMeta();
+                meta.setLore(lore);
+                item.setItemMeta(meta);
+                item.addUnsafeEnchantment(Enchantment.DURABILITY, 1);
+                player.getInventory().addItem(item);
+                player.sendMessage(messages.get("deleted"));
             }
         }
     }
 
-    private boolean isSolid(Block b) {
-        return b.getType().isSolid();
+    private boolean isSolid(Block block) {
+        return block.getType().isCollidable();
     }
 
-    private boolean isSign(Block b) {
-        return SIGN.contains(b.getType());
+    private boolean isSign(Block block) {
+        return Tag.ALL_SIGNS.isTagged(block.getType());
     }
 
     @Override
-    public int containsModifier(ItemStack is) {
-        if (is == null)
+    public int modifierLine(ItemStack item) {
+        if (item == null)
             return -1;
-        ItemMeta im = is.getItemMeta();
+        ItemMeta im = item.getItemMeta();
         if (im == null || !im.hasLore())
             return -1;
         for (String line : im.getLore())
@@ -200,13 +202,13 @@ public class SignLiftModifier extends Modifier {
     }
 
     @Override
-    public void setupItem(ItemStack is) {
-        ItemMeta im = is.getItemMeta();
+    public void setupItem(ItemStack item) {
+        ItemMeta im = item.getItemMeta();
         List<String> lore = im.getLore();
         if (lore == null)
             lore = new ArrayList<>();
         lore.add(modifier);
         im.setLore(lore);
-        is.setItemMeta(im);
+        item.setItemMeta(im);
     }
 }

@@ -47,44 +47,44 @@ public class BastardCommand extends ConfigurableCommand {
     }
 
     @Override
-    public void execCommand(CommandSender s, String[] args) {
-        if (!s.hasPermission("danithings.command.bastard")) {
-            failed(s, FailInfo.NO_PERMISSION);
+    public void execCommand(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("danithings.command.bastard")) {
+            failed(sender, FailInfo.NO_PERMISSION);
             return;
         }
         if (args.length < 1) {
-            failed(s, FailInfo.WRONG_ARG);
+            failed(sender, FailInfo.WRONG_ARG);
             return;
         }
         if (args.length == 1) {
-            if (!s.hasPermission("danithings.command.bastard.show")) {
-                failed(s, FailInfo.NO_PERMISSION);
+            if (!sender.hasPermission("danithings.command.bastard.show")) {
+                failed(sender, FailInfo.NO_PERMISSION);
                 return;
             }
             Player p = Bukkit.getPlayer(args[0]);
             if (p == null) {
-                failed(s, FailInfo.OFFLINE_PLAYER);
+                failed(sender, FailInfo.OFFLINE_PLAYER);
                 return;
             }
             if (!Bastard.isBastard(p)) {
-                s.sendMessage(clr("&cОшибка>&f Данный игрок не является бастардом!"));
-                s.sendMessage(getDescription());
+                sender.sendMessage(clr("&cОшибка>&f Данный игрок не является бастардом!"));
+                sender.sendMessage(getDescription());
                 return;
             }
-            location.forEach(s::sendMessage);
+            location.forEach(sender::sendMessage);
         } else {
-            if (!s.hasPermission("danithings.command.bastard.set")) {
-                failed(s, FailInfo.NO_PERMISSION);
+            if (!sender.hasPermission("danithings.command.bastard.set")) {
+                failed(sender, FailInfo.NO_PERMISSION);
                 return;
             }
             double hours = getDouble(args[1], false);
             if (hours <= 0) {
-                s.sendMessage(clr("&a/bastard <игрок> <часы> [причина] &7 - Выдать &eигроку&7 бастарда на некоторое &eвремя&f."));
+                sender.sendMessage(clr("&a/bastard <игрок> <часы> [причина] &7 - Выдать &eигроку&7 бастарда на некоторое &eвремя&f."));
                 return;
             }
             Player p = Bukkit.getPlayer(args[0]);
             if (p == null)
-                s.sendMessage(clr("&cПредупреждение>&f Данный игрок в настоящее время оффлайн."));
+                sender.sendMessage(clr("&cПредупреждение>&f Данный игрок в настоящее время оффлайн."));
             final String name = p == null ? args[0] : p.getName();
             commands.forEach(c -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), c.replace("{player}", name).replace("{hours}", hours + "")));
             if (args.length == 2) {

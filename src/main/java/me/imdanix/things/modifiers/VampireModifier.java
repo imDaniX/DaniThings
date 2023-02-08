@@ -56,17 +56,14 @@ public class VampireModifier extends Modifier {
         Player p = e.getPlayer();
         if (UNDEAD.contains(e.getDamaged().getType()))
             return;
-        if (containsModifier(p.getInventory().getItemInMainHand()) > -1 && Rnd.nextDouble() < chance && e.getDamage() >= minDamage) {
+        if (modifierLine(p.getInventory().getItemInMainHand()) > -1 && Rnd.nextDouble() < chance && e.getDamage() >= minDamage) {
             double health = p.getHealth() + e.getDamage() * heal;
-            if (health > p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue())
-                p.setHealth(p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue());
-            else
-                p.setHealth(health);
+            p.setHealth(Math.min(health, p.getAttribute(Attribute.GENERIC_MAX_HEALTH).getValue()));
         }
     }
 
     @Override
-    public int containsModifier(ItemStack item) {
+    public int modifierLine(ItemStack item) {
         if (item == null)
             return -1;
         ItemMeta meta = item.getItemMeta();

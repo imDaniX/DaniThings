@@ -62,7 +62,7 @@ public class HotTouchModifier extends Modifier implements Scalable {
     public void onAttack(PlayerDamageEntityEvent e) {
         if (!isEnabled() || fireMobs == 0 || e.getDamage() < 4)
             return;
-        if (containsModifier(e.getPlayer().getInventory().getItemInMainHand()) > -1)
+        if (modifierLine(e.getPlayer().getInventory().getItemInMainHand()) > -1)
             e.getDamaged().setFireTicks(fireMobs);
     }
 
@@ -72,7 +72,7 @@ public class HotTouchModifier extends Modifier implements Scalable {
             return;
         Block block = e.getBlock();
         ItemStack is = e.getPlayer().getInventory().getItemInMainHand();
-        int line = containsModifier(is);
+        int line = modifierLine(is);
         if (line > -1) {
             HotItem item = HotItem.getHotItem(block.getType());
             if (item != null) {
@@ -88,7 +88,7 @@ public class HotTouchModifier extends Modifier implements Scalable {
     }
 
     @Override
-    public int containsModifier(ItemStack item) {
+    public int modifierLine(ItemStack item) {
         if (item == null)
             return -1;
         ItemMeta meta = item.getItemMeta();

@@ -42,9 +42,9 @@ public class HotItem {
     }
 
     public ItemStack generateItem() {
-        ItemStack is = new ItemStack(drop);
-        is.setAmount(getAmount());
-        return is;
+        ItemStack item = new ItemStack(drop);
+        item.setAmount(getAmount());
+        return item;
     }
 
     public static HotItem getHotItem(Material block) {

@@ -94,7 +94,7 @@ public class TeleporterModifier extends Modifier implements Scalable {
         if (!isEnabled() || !isRight(e.getAction())) return;
         if (e.getHand() != EquipmentSlot.HAND) return;
         ItemStack item = e.getItem();
-        int line = containsModifier(item);
+        int line = modifierLine(item);
         if (line > -1) {
             e.setCancelled(true);
             Player player = e.getPlayer();
@@ -157,10 +157,10 @@ public class TeleporterModifier extends Modifier implements Scalable {
     }
 
     @Override
-    public int containsModifier(ItemStack is) {
-        if (is == null || is.getType() != Material.PAPER) return -1;
-        ItemMeta meta = is.getItemMeta();
-        if (is.getItemMeta().getPersistentDataContainer().has(SIZE, PersistentDataType.INTEGER)) {
+    public int modifierLine(ItemStack item) {
+        if (item == null || item.getType() != Material.PAPER) return -1;
+        ItemMeta meta = item.getItemMeta();
+        if (item.getItemMeta().getPersistentDataContainer().has(SIZE, PersistentDataType.INTEGER)) {
             List<String> lore = meta.getLore();
             if (lore == null) return -1;
             int line = 0;
@@ -173,26 +173,26 @@ public class TeleporterModifier extends Modifier implements Scalable {
     }
 
     @Override
-    public void setupItem(ItemStack is) {
-        if (is == null || is.getType() == Material.AIR) return;
-        ItemMeta meta = is.getItemMeta();
+    public void setupItem(ItemStack item) {
+        if (item == null || item.getType() == Material.AIR) return;
+        ItemMeta meta = item.getItemMeta();
         Utils.setLoreLine(meta, 0, unusedModifier);
         meta.getPersistentDataContainer().set(SIZE, PersistentDataType.INTEGER, 10);
-        is.setItemMeta(meta);
+        item.setItemMeta(meta);
     }
 
     @Override
-    public void setupItem(ItemStack is, double value) {
-        if (is == null || is.getType() == Material.AIR) return;
+    public void setupItem(ItemStack item, double value) {
+        if (item == null || item.getType() == Material.AIR) return;
         if (value < 1) {
-            is.setType(matter.getType());
-            is.setItemMeta(matter.getItemMeta());
+            item.setType(matter.getType());
+            item.setItemMeta(matter.getItemMeta());
             return;
         }
-        ItemMeta meta = is.getItemMeta();
+        ItemMeta meta = item.getItemMeta();
         Utils.setLoreLine(meta, 0, unusedModifier);
         meta.getPersistentDataContainer().set(SIZE, PersistentDataType.INTEGER, (int) value);
-        is.setItemMeta(meta);
+        item.setItemMeta(meta);
     }
 
     private class OldTeleporterListener implements Listener {

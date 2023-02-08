@@ -30,13 +30,13 @@ public class SilentkickCommand extends Command {
     }
 
     @Override
-    public void execCommand(CommandSender s, String[] args) {
-        if (!s.hasPermission("danithings.command.silentkick")) {
-            failed(s, FailInfo.NO_PERMISSION);
+    public void execCommand(CommandSender sender, String[] args) {
+        if (!sender.hasPermission("danithings.command.silentkick")) {
+            failed(sender, FailInfo.NO_PERMISSION);
             return;
         }
         if (args.length == 0) {
-            s.sendMessage(getDescription());
+            sender.sendMessage(getDescription());
             return;
         }
         for (Player pl : Bukkit.getOnlinePlayers()) {
@@ -50,6 +50,6 @@ public class SilentkickCommand extends Command {
                 return;
             }
         }
-        failed(s, FailInfo.OFFLINE_PLAYER);
+        failed(sender, FailInfo.OFFLINE_PLAYER);
     }
 }

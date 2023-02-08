@@ -55,29 +55,16 @@ public class NoFallModifier extends Modifier implements Scalable {
             return;
         ItemStack item;
         PlayerInventory inv = ((Player) e.getEntity()).getInventory();
-        switch (slot) {
-            case HEAD:
-                item = inv.getHelmet();
-                break;
-            case CHEST:
-                item = inv.getChestplate();
-                break;
-            case LEGS:
-                item = inv.getLeggings();
-                break;
-            case FEET:
-                item = inv.getBoots();
-                break;
-            case HAND:
-                item = inv.getItemInMainHand();
-                break;
-            case OFF_HAND:
-                item = inv.getItemInOffHand();
-                break;
-            default:
-                item = null;
-        }
-        int line = containsModifier(item);
+        item = switch (slot) {
+            case HEAD -> inv.getHelmet();
+            case CHEST -> inv.getChestplate();
+            case LEGS -> inv.getLeggings();
+            case FEET -> inv.getBoots();
+            case HAND -> inv.getItemInMainHand();
+            case OFF_HAND -> inv.getItemInOffHand();
+            default -> null;
+        };
+        int line = modifierLine(item);
         if (line > -1) {
             if (percentUsage) {
                 double value = 100 - getDouble(item.getItemMeta().getLore().get(line), true);
@@ -89,7 +76,7 @@ public class NoFallModifier extends Modifier implements Scalable {
     }
 
     @Override
-    public int containsModifier(ItemStack item) {
+    public int modifierLine(ItemStack item) {
         if (item == null)
             return -1;
         ItemMeta meta = item.getItemMeta();
@@ -111,24 +98,24 @@ public class NoFallModifier extends Modifier implements Scalable {
     }
 
     @Override
-    public void setupItem(ItemStack is) {
-        ItemMeta im = is.getItemMeta();
+    public void setupItem(ItemStack item) {
+        ItemMeta im = item.getItemMeta();
         List<String> lore = im.getLore();
         if (lore == null)
             lore = new ArrayList<>();
         lore.add(modifier.replace("{value}", "100%"));
         im.setLore(lore);
-        is.setItemMeta(im);
+        item.setItemMeta(im);
     }
 
     @Override
-    public void setupItem(ItemStack is, double percent) {
-        ItemMeta im = is.getItemMeta();
+    public void setupItem(ItemStack item, double percent) {
+        ItemMeta im = item.getItemMeta();
         List<String> lore = im.getLore();
         if (lore == null)
             lore = new ArrayList<>();
         lore.add(modifier.replace("{value}", percent + "%"));
         im.setLore(lore);
-        is.setItemMeta(im);
+        item.setItemMeta(im);
     }
 }
