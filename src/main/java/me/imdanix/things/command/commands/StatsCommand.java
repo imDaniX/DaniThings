@@ -65,7 +65,7 @@ public class StatsCommand extends ConfigurableCommand {
                 failed(sender, FailInfo.OFFLINE_PLAYER);
                 return;
             }
-            stats.forEach(l -> sender.sendMessage(Hooks.PAPI_HOOK.setPlaceholders(p, l)));
+            stats.forEach(l -> sender.sendMessage(clr(Hooks.PAPI_HOOK.setPlaceholders(p, l))));
         }
     }
 
